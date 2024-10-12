@@ -33,7 +33,7 @@ NextTalk is a real-time chat application that allows users to communicate seamle
 
 ## Medium Blog Posts 📰
 
-For understanding of NextTalk Chat App, along with an overview of its tech stack and development process, I have written an articles on Medium. You can read it through the links below:
+For understanding of NextTalk Chat App, along with an overview of its tech stack and development process, I have written an article on Medium. You can read it through the links below:
 
 + [Introducing NextTalk Chat App - A Chat Application with Real-Time Support](https://medium.com/@cityalight.hesbon/introducing-nexttalk-chat-app-a-chat-application-with-real-time-support-d7446e71587a)
 
