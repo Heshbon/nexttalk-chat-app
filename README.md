@@ -57,8 +57,8 @@ This passwordless approach enhances user experience by simplifying the authentic
 
 ## Author ✒️
 
-    + Hesbon Kipchirchir <https://github.com/Heshbon>
+    Hesbon Kipchirchir <u>[Heshbon](https://github.com/Heshbon)</u>
 
 ## License 🔒
 
-This project is licensed under the MIT License - see the LICENSE file for details.
++  This project is licensed under the [MIT License](https://opensource.org/licenses/MIT) - see the [LICENSE](https://github.com/Heshbon/nexttalk-chat-app/blob/main/LICENSE) file for details.
