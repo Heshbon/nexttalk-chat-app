@@ -57,7 +57,7 @@ This passwordless approach enhances user experience by simplifying the authentic
 
 ## Author ✒️
 
-    Hesbon Kipchirchir <u>[Heshbon](https://github.com/Heshbon)</u>
++ Hesbon Kipchirchir [Heshbon](https://github.com/Heshbon)
 
 ## License 🔒
 
