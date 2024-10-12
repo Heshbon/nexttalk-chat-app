@@ -16,6 +16,7 @@ import pict2 from './pict2.png'
 import bluedot_icon from './bluedot_icon.png'
 import pict3 from './pict3.png'
 import pict4 from './pict4.png'
+import tech_stack from './tech_stack.png'
 import search_icon from './search_icon.png'
 import send_icon from './send_icon.png'
 
@@ -24,6 +25,7 @@ const assets = {
   gallery_icon,
   help_icon,
   photo1,
+  tech_stack,
   pict2,
   chat_logo,
   pict3,
