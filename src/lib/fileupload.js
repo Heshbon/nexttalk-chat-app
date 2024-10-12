@@ -19,7 +19,6 @@ const upload = async (file) => {
           case "running":
             console.log("Upload is running");
             break;
-            
         }
       },
       (error) => {},
