@@ -41,7 +41,10 @@ View the dedicated back-end README.md.
 
 ## Authentication 🔑
 
-![Alt text](./src/assets/auth.png)
+<div align="center">
+    <img src="./src/assets/auth.png" alt="Authentication Image">
+</div>
+
 
 Passwords are no fun. NextTalk features a user authentication process managed by Firebase Authentication. The process works as follows:
 
