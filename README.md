@@ -41,7 +41,9 @@ View the dedicated back-end README.md.
 
 ## Authentication 🔑
 
-Passwords are no fun. NextTalk features a passwordless user authentication process managed by Firebase Authentication. The process works as follows:
+![Alt text](./src/assets/auth.png)
+
+Passwords are no fun. NextTalk features a user authentication process managed by Firebase Authentication. The process works as follows:
 
 1. **User Input**: The user enters their email (for login) or both email and username (for signup). The front-end initially sends the email/username to the back-end.
 
