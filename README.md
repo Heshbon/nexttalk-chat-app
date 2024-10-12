@@ -18,9 +18,10 @@ For understanding of NextTalk Chat App, along with an overview of its tech stack
 
 ## Tech Stack 🐩
 
-<div align="center">
-    <img src="./src/assets/tech_stack.png" alt="Techstack Image">
+<div style="text-align: center;">
+    <img src="./src/assets/tech_stack.png" alt="Techstack Image" style="max-width: 100%; height: auto;">
 </div>
+
 
 ## Dependencies 👫
 
