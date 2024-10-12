@@ -1,0 +1,104 @@
+.lb{
+  height: 75vh;
+  color: #A3C1DA;
+  background: #333333;
+}
+.lb-top{
+  padding: 20px;
+}
+.lb-nav{
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+.lb-nav .logo{
+  max-width: 142px;
+}
+.lb-nav .menu img{
+  opacity: 0.5;
+  cursor: pointer;
+  max-height: 20px;
+}
+.lb-search{
+  padding: 10px 12px;
+  align-items: center;
+  margin-top: 20px;
+  background-color: #4CAF50;
+  gap: 10px;
+  display: flex;
+}
+.lb-search img{
+  width: 16px;
+}
+.lb-search input{
+  outline: none;
+  font-size: 12px;
+  background: transparent;
+  color: whitesmoke;
+  border: none;
+}
+.lb-search input::placeholder{
+  color: #FFFFFF;
+}
+.lb-list{
+  height: 72%;
+  display: flex;
+  overflow-y: scroll;
+  flex-direction: column;
+}
+.contacts img{
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  width: 36px;
+}
+.contacts{
+  gap: 10px;
+  cursor: pointer;
+  padding: 10px 20px;
+  display: flex;
+  font-size: 14px;
+  align-items: center;
+}
+.contacts div{
+  flex-direction: column;
+  display: flex;
+}
+.contacts span{
+  font-size: 12px;
+  color: #FFFFFF;
+}
+.contacts:hover{
+  background-color: #FFB300;
+}
+.contacts:hover span{
+  color: whitesmoke;
+}
+.lb-nav .menu{
+  padding: 11px 0px;
+  position: relative;
+}
+
+.menu .sub-menu{
+  padding: 21px;
+  right: 0;
+  background-color: antiquewhite;
+  width: 131px;
+  position: absolute;
+  color: black;
+  border-radius: 6px;
+  display: none;
+  top: 100%;
+}
+.sub-menu hr{
+  background: #B0B0B0;
+  border: none;
+  margin: 9px 0px;
+  height: 1px;
+}
+.sub-menu p{
+  font-size: 13px;
+  cursor: pointer;
+}
+.menu:hover .sub-menu{
+  display: block;
+}

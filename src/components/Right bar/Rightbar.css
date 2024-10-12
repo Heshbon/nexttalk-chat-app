@@ -1,0 +1,67 @@
+.rb{
+  height: 76vh;
+  overflow-y: scroll;
+  color: antiquewhite;
+  position: relative;
+  background: #003B5C;
+}
+.rb-profile{
+  max-width: 72%;
+  margin: auto;
+  padding-top: 62px;
+  text-align: center;
+}
+.rb-profile img{
+  width: 112px;
+  border-radius: 50%;
+  aspect-ratio: 1/1;
+}
+.rb-profile h3{
+  justify-content: center;
+  display: flex;
+  font-size: 19px;
+  margin: 6px 0px;
+  gap: 6px;
+  align-items: center;
+  font-weight: 402;
+}
+.rb-profile p{
+  opacity: 78%;
+  font-weight: 298;
+  font-size: 11px;
+}
+.rb hr{
+  margin: 15px 0px;
+  border-color: #e0e0e050;
+}
+.rb-media{
+  font-size: 14px;
+  padding: 0px 21px;
+}
+.rb-media div{
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-top: 9px;
+  display: grid;
+  max-height: 181px;
+  gap: 6px;
+  overflow-y: scroll;
+}
+.rb-media div img{
+  border-radius: 5px;
+  cursor: pointer;
+  width: 61px;
+}
+.rb button{
+  color: antiquewhite;
+  border-radius: 21px;
+  bottom: 21px;
+  position: absolute;
+  padding: 11px 66px;
+  cursor: pointer;
+  background: #FF4D4D;
+  border: none;
+  font-size: 13px;
+  left: 50%;
+  font-weight: 301;
+  transform: translateX(-50%);
+}

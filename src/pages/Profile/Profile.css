@@ -1,0 +1,58 @@
+.account{
+  background: url(/background_icon.png) no-repeat;
+  background-size: cover;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+.account-container{
+  justify-content: space-between;
+  min-width: 702px;
+  display: flex;
+  background: antiquewhite;
+  border-radius: 11px;
+  align-items: center;
+}
+.account-pict{
+  margin: 20px auto;
+  max-width: 162px;
+  border-radius: 50%;
+  aspect-ratio: 1/1;
+}
+.account form{
+  gap: 21px;
+  display: flex;
+  padding: 41px;
+  flex-direction: column;
+}
+.account form h3{
+  font-weight: 502;
+}
+.account label{
+  gap: 11px;
+  cursor: pointer;
+  display: flex;
+  color: #003366 ;
+  align-items: center;
+}
+.account label img{
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  width: 50px;
+}
+
+.account input,textarea{
+  border: 1px solid #81D4FA;
+  padding: 11px;
+  outline-color: #FF5722;
+  min-width: 300px;
+}
+.account form button{
+  padding: 9px;
+  border: none;
+  color: #2C3E50;
+  cursor: pointer;
+  background-color: #FF9800;
+  font-size: 16px;
+}

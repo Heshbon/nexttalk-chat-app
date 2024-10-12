@@ -1,0 +1,101 @@
+.Chat-bar{
+  background-color: #e0e7ff;
+  height: 75vh;
+  position: relative;
+}
+.Chat-user{
+  align-items: center;
+  border-bottom: 1px solid #a0a0a0;
+  padding: 10px 15px;
+  gap: 10px;
+  display: flex;
+}
+.Chat-user img{
+  border-radius: 50%;
+  width: 26px;
+}
+.Chat-user img:first-child{
+  aspect-ratio: 1/1;
+  width: 40px;
+}
+.Chat-user p{
+  font-size: 22px;
+  color: #4A90E2;
+  font-weight: 500;
+  flex: 1;
+  gap: 6px;
+  align-items: center;
+  display: flex;
+}
+.chat-data{
+  position: absolute;
+  gap: 11px;
+  align-items: center;
+  padding: 10px 15px;
+  display: flex;
+  background: white;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+.chat-data img{
+  cursor: pointer;
+  width: 32px;
+}
+.chat-data label{
+  display: flex;
+}
+.chat-data label img{
+  width: 23px;
+}
+.chat-data input
+{
+  border: none;
+  outline: none;
+  flex: 1;
+}
+.chat-post{
+  display: flex;
+  height: calc(100% - 72px);
+  padding-bottom: 50px;
+  flex-direction: column-reverse;
+  overflow-y: scroll;
+}
+.t-post div img,.r-post div img{
+  aspect-ratio: 1/1;
+  border-radius: 50px;
+  width: 28px;
+}
+.t-post,.r-post{
+  justify-content: end;
+  padding: 0px 16px;
+  align-items: end;
+  display: flex;
+  gap: 6px;
+}
+.r-post{
+  justify-content: start;
+  flex-direction: row-reverse;
+}
+.post{
+  font-weight: 302;
+  max-width: 202px;
+  background-color: #0ABAB5;
+  border-radius: 9px 9px 0px 9px;
+  padding: 9px;
+  color: antiquewhite;
+  margin-bottom: 32px;
+  font-size: 13px;
+}
+.r-post .post{
+  border-radius: 9px 9px 9px 0px;
+}
+.t-post div,.r-post div{
+  font-size: 10px;
+  text-align: center;
+}
+.post-img{
+  margin-bottom: 32px;
+  border-radius: 9px;
+  max-width: 232px;
+}
