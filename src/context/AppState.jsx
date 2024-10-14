@@ -44,9 +44,9 @@ const AppStateProvider = (props) => {
   }, []);
 
   const value = {
-    userInfo,setUserInfo,
-    chatInfo,setChatInfo,
-    loadUserInfo,
+    userData,setUserData,
+    chatData,setChatData,
+    loadUserData,
   };
 
   return (
