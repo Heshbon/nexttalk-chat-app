@@ -12,13 +12,13 @@ import AppStateProvider, {AppState} from './context/AppState'
 const App = () => {
 
   const navigate = useNavigate();
-  const {loadUserInfo} = useContext(AppState)
+  const {loadUserData} = useContext(AppState)
 
   useEffect(()=> {
     onAuthStateChanged(auth, async (user)=> {
       if (user) {
         navigate('/chat')
-        await loadUserInfo(user.uid)
+        await loadUserData(user.uid)
       }
       else {
         navigate('/')
