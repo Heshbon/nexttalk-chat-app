@@ -70,7 +70,7 @@ const Profile = () => {
           navigate('/profile'); // Redirect to profile to set it up
         }
       } else {
-        navigate('/'); // Navigate to homepage if not authenticated
+        navigate('/'); 
       }
     });
     
@@ -91,7 +91,7 @@ const Profile = () => {
         <textarea onChange={(e)=>setInfo(e.target.value)} value={info} placeholder='Update your info' required></textarea>
         <button type='submit'>Save</button>
         </form>
-        <img className='account-pict' src={image? URL.createObjectURL(image) : assets.logo} alt="" />
+        <img className='account-pict' src={image? URL.createObjectURL(image) : lastImage ? lastImage : assets.logo} alt="" />
       </div>
     </div>
   );
