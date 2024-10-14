@@ -44,7 +44,12 @@ const AppStateProvider = (props) => {
     loadUserData,
   };
 
-  return <AppState.Provider value={value}>{props.children}</AppState.Provider>;
+  return (
+    <AppState.Provider value={value}>
+      {props.children}
+    </AppState.Provider>
+  )
+  
 };
 
 export default AppStateProvider;
