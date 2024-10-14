@@ -10,6 +10,7 @@ const AppStateProvider = (props) => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [chatData, setChatData] = useState(null);
+  const [ lastSeen, setLastSeen ] = useState(null);
 
   const loadUserData = async (uid) => {
     try {
@@ -22,9 +23,12 @@ const AppStateProvider = (props) => {
       } else {
         navigate('/profile');
       }
-      await updateDoc(userRef, {
-        lastSeen: Date.now()
-      });
+
+      const now = Date.now();
+      if (lastSeen !== now) { // ONly update if necessary
+        await updateDoc(userRef, { lastSeen: now});
+          lastSeen(now);
+      }
     } catch (error) {
       console.error('Error loading user info:', error);
       toast.error('Failed to load user info. Please try again.');
@@ -34,14 +38,17 @@ const AppStateProvider = (props) => {
   useEffect(() => {
     const intervalId = setInterval(async () => {
       if (auth.chatUser) {
-        await updateDoc(doc(db, 'users', auth.currentUser.uid), {
-          lastSeen: Date.now()
-        });
+        const userRef = doc(db, 'users', auth.currentUser.uid);
+        const now = Date.now();
+        if (lastSeen !== now) { // Check if we need to update
+          await updateDoc(userRef, { lastSeen:now });
+          setLastSeen(now);
+        }
       }
-    }, 60000);
+    }, 300000);
 
     return () => clearInterval(intervalId); // Cleanup on unmount
-  }, []);
+  }, [lastSeen]); // depend on lastseen to update correctly
 
   const value = {
     userData,setUserData,
