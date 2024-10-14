@@ -45,7 +45,8 @@ const Profile = () => {
       }
       const snap = await getDoc(docRef);
       setUserData(snap.data());
-      navigate('/chat');
+      toast.success('Profile updated successfully!'); // Indicate success
+      navigate('/chat'); // Navigate after updating
     } catch (error) {
       console.error(error);
       toast.error(error.message);
@@ -53,7 +54,7 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth,async (user) =>{
+    const unsubscribe = onAuthStateChanged(auth,async (user) => {
       if (user) {
         setUid(user.uid)
         const docRef = doc(db,'users',user.uid);
@@ -63,17 +64,19 @@ const Profile = () => {
           setName(data.name || '');
           setInfo(data.info || '');
           setLastIMage(data.avatar || '');
+          setUserData(data); // Set user data if it exits
         } else {
-          toast.error('User document does not exist.');
+          toast.error('Your profile is not set up yet. Please complete your profile.');
+          navigate('/profile'); // Redirect to profile to set it up
         }
       } else {
-        navigate('/');
+        navigate('/'); // Navigate to homepage if not authenticated
       }
     });
     
     return () => unsubscribe(); // Cleanup on unmount
     }, [navigate]);
-    
+  
     return (
       <div className='account'>
         <div className="account-container">
