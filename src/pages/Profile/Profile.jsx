@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './Profile.css'
 import assets from '../../assets/assets'
 import { onAuthStateChanged } from 'firebase/auth';
@@ -7,6 +7,7 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import upload from '../../lib/fileupload';
+import { AppState } from '../../context/AppState';
 
 const Profile = () => {
 
@@ -16,8 +17,9 @@ const Profile = () => {
   const [info,setInfo] = useState('');
   const [uid,setUid] = useState('');
   const [lastImage,setLastIMage] = useState('')
+  const {setUserData} = useContext(AppState)
 
-  const profileUpdate = async (event) => {
+  const Update = async (event) => {
     event.preventDefault();
     try {
       
@@ -40,8 +42,12 @@ const Profile = () => {
           name:name
         })
       }
+      const snap = await getDoc(docRef);
+      setUserData(snap.data());
+      navigate('/chat');
     } catch (error) {
-      
+      console.error(error);
+      toast.error(error.message);
     }
   }
 
@@ -70,7 +76,7 @@ const Profile = () => {
   return (
     <div className='account'>
       <div className="account-container">
-        <form onSubmit={profileUpdate}>
+        <form onSubmit={Update}>
           <h3>Account info</h3>
           <label htmlFor="avatar">
             <input onChange={(e)=>setImage(e.target.files[0])} type="file" id='avatar' accept='.jpg, .jpeg, .png' hidden />

@@ -20,7 +20,7 @@ const db = getFirestore(app);
 const signup = async (username,email,password) => {
 try {
   const res = await createUserWithEmailAndPassword(auth,email,password);
-  const user = res.user
+  const user = res.user;
   await setDoc(doc(db,'users',user.uid),{
     id:user.uid,
     username:username.toLowerCase(),
