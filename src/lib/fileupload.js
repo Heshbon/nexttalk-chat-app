@@ -1,6 +1,7 @@
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const upload = async (file) => {
+
   const storage = getStorage();
   const storageRef = ref(storage, `images/${Date.now()+ file.name}`);
 
@@ -21,15 +22,17 @@ const upload = async (file) => {
             break;
         }
       },
-      (error) => {},
+      (error) => {
+        console.error('Upload failed:', error);
+        reject(error)
+      },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           resolve(downloadURL)
         });
       }
     );
-  })
-
-}
+  });
+};
 
 export default upload;
