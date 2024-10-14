@@ -46,7 +46,7 @@ const Profile = () => {
       const snap = await getDoc(docRef);
       setUserData(snap.data());
       toast.success('Profile updated successfully!'); // Indicate success
-      navigate('/chat'); // Navigate after updating
+      // navigate('/profile'); // Navigate after updating
     } catch (error) {
       console.error(error);
       toast.error(error.message);
@@ -67,7 +67,7 @@ const Profile = () => {
           setUserData(data); // Set user data if it exits
         } else {
           toast.error('Your profile is not set up yet. Please complete your profile.');
-          navigate('/profile'); // Redirect to profile to set it up
+          navigate('/chat'); // Redirect to profile to set it up
         }
       } else {
         navigate('/'); 
