@@ -24,7 +24,7 @@ const App = () => {
       }
       else {
         if (!hasNavigated) {
-          navigate('/'); // Navigate to login if not authenticated
+          navigate('/profile'); // Navigate to login if not authenticated
           setHasNavigated(true);
         } 
       }
