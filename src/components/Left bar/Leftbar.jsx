@@ -14,7 +14,7 @@ const Leftbar = () => {
           <div className="menu">
             <img src={assets.menu_icon} alt="" />
             <div className="sub-menu">
-              <p onClick={()=>navigate('./profile')}>Edit profile</p>
+              <p onClick={() => navigate('/profile')}>Edit profile</p>
               <hr />
               <p>Logout</p>
             </div>
