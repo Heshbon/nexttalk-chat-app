@@ -84,7 +84,7 @@ const Profile = () => {
             Update your photo
           </label>
           <input onChange={(e)=>setName(e.target.value)} value={name} type="text" placeholder='Contact name' required />
-          <textarea onChange={(e)=>setInfo(e.target.info)} value={info} placeholder='Update your info' required></textarea>
+          <textarea onChange={(e)=>setInfo(e.target.value)} value={info} placeholder='Update your info' required></textarea>
           <button type='submit'>Save</button>
         </form>
         <img className='account-pict' src={image? URL.createObjectURL(image) : assets.logo} alt="" />
