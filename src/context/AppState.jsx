@@ -8,16 +8,16 @@ export const AppState = createContext();
 
 const AppStateProvider = (props) => {
   const navigate = useNavigate();
-  const [userInfo, setUserInfo] = useState({name: '', avatar: '', info: '',});
-  const [chatInfo, setChatInfo] = useState(null);
+  const [userData, setUserData] = useState(null);
+  const [chatData, setChatData] = useState(null);
 
-  const loadUserInfo = async (uid) => {
+  const loadUserData = async (uid) => {
     try {
       const userRef = doc(db, "users", uid);
       const userSnap = await getDoc(userRef);
-      const userInfo = userSnap.data();
-      setUserInfo(userInfo);
-      if (userInfo && userInfo.avatar && userInfo.name) {
+      const userData = userSnap.data();
+      setUserData(userData);
+      if (userData.avatar && userData.name) {
         navigate('/chat');
       } else {
         navigate('/profile');
