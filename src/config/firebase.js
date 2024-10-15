@@ -21,6 +21,8 @@ const signup = async (username,email,password) => {
 try {
   const res = await createUserWithEmailAndPassword(auth,email,password);
   const user = res.user;
+
+  // set user data
   await setDoc(doc(db,'users',user.uid),{
     id:user.uid,
     username:username.toLowerCase(),
@@ -29,10 +31,12 @@ try {
     avatar:'',
     info:'Hey there! I am a new user on this chat app',
     lastSeen:Date.now()
-  })
-  await setDoc(db,'chats',user.uid),{
-    chatData:[]
-  }
+  });
+
+  // Create a chat document for the user
+  await setDoc(doc(db, 'chats', user.uid), {
+    chatsData:[]
+  });
 } catch (error) {
   console.error(error)
   toast.error(error.code.split('/')[1].split('-').join(' '));
