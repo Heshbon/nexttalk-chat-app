@@ -1,13 +1,12 @@
 import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { createContext, useEffect, useState } from "react";
 import { auth, db } from "../config/firebase";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export const AppState = createContext();
 
 const AppStateProvider = (props) => {
-  const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [chatData, setChatData] = useState([]);
   const [lastSeen, setLastSeen ] = useState(Date.now());
@@ -23,12 +22,12 @@ const AppStateProvider = (props) => {
 
       const userData = userSnap.data();
       setUserData(userData);
-      navigate(userData.avatar && userData.name ? '/chat' : '/profile');
+      // navigate(userData.avatar && userData.name ? '/chat' : '/profile');
       
       const now = Date.now();
       if (lastSeen !== now) { // Only update if necessary
         await updateDoc(userRef, { lastSeen: now});
-          lastSeen(now);
+          setLastSeen(now);
       }
     } catch (error) {
       console.error('Error loading user info:', error);
@@ -46,7 +45,7 @@ const AppStateProvider = (props) => {
           setLastSeen(now);
         }
       }
-    }, 300000);
+    }, 300000); // update every 5 minutes
 
     return () => clearInterval(intervalId); // Cleanup on unmount
   }, [lastSeen]); // depend on lastseen to update correctly
