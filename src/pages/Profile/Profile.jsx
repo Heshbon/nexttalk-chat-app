@@ -12,11 +12,11 @@ import { AppState } from '../../context/AppState';
 const Profile = () => {
 
   const navigate = useNavigate();
-  const [image,setImage] = useState(false);
-  const [name,setName] = useState('');
-  const [info,setInfo] = useState('');
-  const [uid,setUid] = useState('');
-  const [lastImage,setLastIMage] = useState('');
+  const [image, setImage] = useState(false);
+  const [name, setName] = useState('');
+  const [info, setInfo] = useState('');
+  const [uid, setUid] = useState('');
+  const [lastImage, setLastIMage] = useState('');
   const {setUserData} = useContext(AppState);
 
   const updateProfile = async (event) => {
@@ -32,7 +32,7 @@ const Profile = () => {
       if (image) {
         const imgUrl = await upload(image);
         setLastIMage(imgUrl);
-        await updateDoc(docRef,{
+        await updateDoc(docRef, {
           avatar:imgUrl,
           info:info,
           name:name,
@@ -48,7 +48,7 @@ const Profile = () => {
       const snap = await getDoc(docRef);
       setUserData(snap.data());
       toast.success('Profile updated successfully!'); // Indicate success
-      // navigate('/profile'); // Navigate after updating
+      navigate('/chat'); // Navigate to chat after updating
     } catch (error) {
       console.error(error);
       toast.error(error.message);
