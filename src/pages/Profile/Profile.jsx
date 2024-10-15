@@ -77,7 +77,7 @@ const Profile = () => {
     });
     
     return () => unsubscribe(); // Cleanup on unmount
-    }, [navigate]);
+    }, []);
   
     return (
       <div className='account'>
