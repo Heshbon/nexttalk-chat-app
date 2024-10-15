@@ -16,11 +16,11 @@ const AppStateProvider = (props) => {
     try {
       const userRef = doc(db, "users", uid);
       const userSnap = await getDoc(userRef);
-
+      
       if (!userSnap.exists()) {
         throw new Error("User not found");
       }
-
+      
       const userData = userSnap.data();
       setUserData(userData);
 
@@ -67,7 +67,7 @@ const AppStateProvider = (props) => {
         async (res) => {
           const chatLogs = res.data()?.chatsData || []; // handle undefined chatsData
           const tempData = [];
-
+          
           for (const item of chatLogs) {
             const userRef = doc(db, "users", item.rId);
             const userSnap = await getDoc(userRef);
@@ -88,10 +88,8 @@ const AppStateProvider = (props) => {
   }, [userData]);
 
   const value = {
-    userData,
-    setUserData,
-    chatData,
-    setChatData,
+    userData, setUserData,
+    chatData, setChatData,
     loadUserData,
   };
 
