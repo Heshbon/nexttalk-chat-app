@@ -1,12 +1,13 @@
 import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { createContext, useEffect, useState } from "react";
 import { auth, db } from "../config/firebase";
-//import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export const AppState = createContext();
 
 const AppStateProvider = (props) => {
+  const navigate = useNavigate(); // for navigation to the app
   const [userData, setUserData] = useState(null);
   const [chatData, setChatData] = useState([]);
   const [lastSeen, setLastSeen ] = useState(Date.now());
@@ -22,7 +23,13 @@ const AppStateProvider = (props) => {
 
       const userData = userSnap.data();
       setUserData(userData);
-      // navigate(userData.avatar && userData.name ? '/chat' : '/profile');
+
+      // navigate based on profile completeness
+      if (userData.avatar && userData.name) {
+        navigate('/chat'); // navigate to chat if complete
+      } else {
+        navigate('/profile'); // navigate to profile if incomplete
+      }
       
       const now = Date.now();
       if (lastSeen !== now) { // Only update if necessary
@@ -54,7 +61,7 @@ const AppStateProvider = (props) => {
     if (userData) {
       const chatRef = doc(db, 'chats', userData.id);
       const unSub = onSnapshot(chatRef,async (res) => {
-        const chatLogs = res.data().chatsData;
+        const chatLogs = res.data()?.chatsData || []; // handle undefined chatsData
         const tempData = [];
 
         for (const item of chatLogs){
