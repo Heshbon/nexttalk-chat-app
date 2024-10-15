@@ -19,7 +19,7 @@ const Profile = () => {
   const [lastImage,setLastIMage] = useState('');
   const {setUserData} = useContext(AppState);
 
-  const Update = async (event) => {
+  const updateProfile = async (event) => {
     event.preventDefault();
     try {
       
@@ -27,6 +27,7 @@ const Profile = () => {
         toast.error('Choose your profile image');
         return; // stop further execution if no image
       }
+
       const docRef = doc(db,'users',uid)
       if (image) {
         const imgUrl = await upload(image);
@@ -34,15 +35,16 @@ const Profile = () => {
         await updateDoc(docRef,{
           avatar:imgUrl,
           info:info,
-          name:name
+          name:name,
         });
       }
       else{
         await updateDoc(docRef,{
           info:info,
-          name:name
+          name:name,
         });
       }
+
       const snap = await getDoc(docRef);
       setUserData(snap.data());
       toast.success('Profile updated successfully!'); // Indicate success
@@ -56,7 +58,7 @@ const Profile = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth,async (user) => {
       if (user) {
-        setUid(user.uid)
+        setUid(user.uid);
         const docRef = doc(db,'users',user.uid);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
@@ -67,7 +69,7 @@ const Profile = () => {
           setUserData(data); // Set user data if it exits
         } else {
           toast.error('Your profile is not set up yet. Please complete your profile.');
-          navigate('/chat'); // Redirect to profile to set it up
+          navigate('/profile'); // Redirect to profile to set it up
         }
       } else {
         navigate('/'); 
@@ -80,7 +82,7 @@ const Profile = () => {
     return (
       <div className='account'>
         <div className="account-container">
-        <form onSubmit={Update}>
+        <form onSubmit={updateProfile}>
         <h3>Account info</h3>
         <label htmlFor="avatar">
         <input onChange={(e)=>setImage(e.target.files[0])} type="file" id='avatar' accept='.jpg, .jpeg, .png' hidden />
@@ -91,11 +93,10 @@ const Profile = () => {
         <textarea onChange={(e)=>setInfo(e.target.value)} value={info} placeholder='Update your info' required></textarea>
         <button type='submit'>Save</button>
         </form>
-        <img className='account-pict' src={image? URL.createObjectURL(image) : lastImage ? lastImage : assets.logo} alt="" />
+        <img className='account-pict' src={image? URL.createObjectURL(image) : lastImage ? lastImage : assets.logo} alt="Profile Display" />
       </div>
     </div>
   );
 };
     
-
-export default Profile
+export default Profile;
