@@ -18,20 +18,20 @@ const App = () => {
   useEffect(()=> {
     const unsubscribe = onAuthStateChanged(auth, async (user)=> {
       if (user) {
-        await loadUserData(user.uid) // Load user data first
+        await loadUserData(user.uid); // Load user data first
         navigate('/chat'); // Then navigate
         setHasNavigated(true);
       }
       else {
         if (!hasNavigated) {
-          navigate('/profile'); // Navigate to login if not authenticated
+          navigate('/profile'); // Navigate to profile
           setHasNavigated(true);
         } 
       }
     });
 
     return () => unsubscribe(); // Cleanup subscription on unmount
-  },[navigate, loadUserData, hasNavigated]); // Add dependencies
+  },[navigate, loadUserData, hasNavigated]); // keep dependencies minimal
 
   return (
     <AppStateProvider>
@@ -42,7 +42,7 @@ const App = () => {
         <Route path='/profile' element={<Update/>}/>
       </Routes>
     </AppStateProvider>
-  )
+  );
 }
 
 export default App
