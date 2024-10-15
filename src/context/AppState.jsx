@@ -7,10 +7,10 @@ import { toast } from "react-toastify";
 export const AppState = createContext();
 
 const AppStateProvider = (props) => {
-  const navigate = useNavigate(); // for navigation to the app
+  const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [chatData, setChatData] = useState([]);
-  const [lastSeen, setLastSeen ] = useState(Date.now());
+  const [lastSeen, setLastSeen] = useState(Date.now());
 
   const loadUserData = async (uid) => {
     try {
@@ -24,18 +24,15 @@ const AppStateProvider = (props) => {
       const userData = userSnap.data();
       setUserData(userData);
 
-      // navigate based on profile completeness
       if (userData.avatar && userData.name) {
-        navigate('/chat'); // navigate to chat if complete
+        navigate('/chat');
       } else {
-        navigate('/profile'); // navigate to profile if incomplete
+        navigate('/profile');
       }
-      
+
       const now = Date.now();
-      if (lastSeen !== now) { // Only update if necessary
-        await updateDoc(userRef, { lastSeen: now});
-          setLastSeen(now);
-      }
+      await updateDoc(userRef, { lastSeen: now });
+      setLastSeen(now);
     } catch (error) {
       console.error('Error loading user info:', error);
       toast.error('Failed to load user info. Please try again.');
@@ -43,47 +40,60 @@ const AppStateProvider = (props) => {
   };
 
   useEffect(() => {
-    const intervalId = setInterval(async () => {
-      if (auth.chatUser) {
-        const userRef = doc(db, 'users', auth.currentUser.uid);
-        const now = Date.now();
-        if (lastSeen !== now) { // Check if we need to update
-          await updateDoc(userRef, { lastSeen:now });
-          setLastSeen(now);
-        }
-      }
-    }, 300000); // update every 5 minutes
+    // Ensure auth.currentUser is not null before accessing uid
+    if (auth.currentUser) {
+      const userRef = doc(db, "users", auth.currentUser.uid);
+      const unsubscribe = onSnapshot(userRef, (doc) => {
+        if (doc.exists()) {
+          const userData = doc.data();
+          setUserData(userData);
 
-    return () => clearInterval(intervalId); // Cleanup on unmount
-  }, [lastSeen]); // depend on lastseen to update correctly
+          if (userData.avatar && userData.name) {
+            navigate('/chat');
+          } else {
+            navigate('/profile');
+          }
+
+          const now = Date.now();
+          if (lastSeen !== now) {
+            updateDoc(userRef, { lastSeen: now });
+            setLastSeen(now);
+          }
+        }
+      });
+
+      return () => unsubscribe();
+    } else {
+      // Handle case where user is not logged in
+      navigate('/login'); // Redirect to login page or handle accordingly
+    }
+  }, [lastSeen, navigate]);
 
   useEffect(() => {
     if (userData) {
       const chatRef = doc(db, 'chats', userData.id);
-      const unSub = onSnapshot(chatRef,async (res) => {
-        const chatLogs = res.data()?.chatsData || []; // handle undefined chatsData
-        const tempData = [];
+      const unsubscribe = onSnapshot(chatRef, async (chatSnap) => {
+        const chatLogs = chatSnap.data()?.chatsData || [];
 
-        for (const item of chatLogs){
-          const userRef = doc(db, 'users',item.rId);
+        const userPromises = chatLogs.map(async (item) => {
+          const userRef = doc(db, 'users', item.rId);
           const userSnap = await getDoc(userRef);
-          const userData = userSnap.data();
-          tempData.push({...item,userData});
-        }
-        setChatData(tempData.sort((a,b) => b.updatedAt - a.updatedAt)); // recent chats on top and old on bottom
-      }, (error) => {
-        console.error('Snapshot error', error);
+          return { ...item, userData: userSnap.data() };
+        });
+
+        const chatWithUserData = await Promise.all(userPromises);
+        setChatData(chatWithUserData.sort((a, b) => b.updatedAt - a.updatedAt));
       });
 
-      return () => {
-        unSub();
-      };
+      return () => unsubscribe();
     }
   }, [userData]);
 
   const value = {
-    userData,setUserData,
-    chatData,setChatData,
+    userData,
+    setUserData,
+    chatData,
+    setChatData,
     loadUserData,
   };
 
