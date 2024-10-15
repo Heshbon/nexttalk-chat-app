@@ -12,15 +12,15 @@ import AppStateProvider, {AppState} from './context/AppState';
 const App = () => {
 
   const navigate = useNavigate();
-  const { loadUserData } = useContext(AppState);
+  const { loadUserData, setUserData } = useContext(AppState);
   const [hasNavigated, setHasNavigated] = useState(false);
 
   useEffect(()=> {
     const unsubscribe = onAuthStateChanged(auth, async (user)=> {
       if (user) {
         await loadUserData(user.uid); // Load user data first
-        // navigate('/chat'); // Then navigate
         setHasNavigated(true);
+        navigate('/profile'); // navigate to profile after loadind data
       }
       else {
         if (!hasNavigated) {
@@ -31,7 +31,7 @@ const App = () => {
     });
 
     return () => unsubscribe(); // Cleanup subscription on unmount
-  },[navigate, loadUserData, hasNavigated]); // keep dependencies minimal
+  },[navigate, loadUserData, hasNavigated, setUserData]); // keep dependencies minimal
 
   return (
     <AppStateProvider>
