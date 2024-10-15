@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 export const AppState = createContext();
 
 const AppStateProvider = (props) => {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // for navigation to the app
   const [userData, setUserData] = useState(null);
   const [chatData, setChatData] = useState([]);
   const [lastSeen, setLastSeen] = useState(Date.now());
@@ -18,74 +18,72 @@ const AppStateProvider = (props) => {
       const userSnap = await getDoc(userRef);
 
       if (!userSnap.exists()) {
-        throw new Error('User not found');
+        throw new Error("User not found");
       }
 
       const userData = userSnap.data();
       setUserData(userData);
 
+      // navigate based on profile completeness
       if (userData.avatar && userData.name) {
-        navigate('/chat');
+        navigate("/chat"); // navigate to chat if complete
       } else {
-        navigate('/profile');
+        navigate("/profile"); // navigate to profile if incomplete
       }
 
       const now = Date.now();
-      await updateDoc(userRef, { lastSeen: now });
-      setLastSeen(now);
+      if (lastSeen !== now) {
+        // Only update if necessary
+        await updateDoc(userRef, { lastSeen: now });
+        setLastSeen(now);
+      }
     } catch (error) {
-      console.error('Error loading user info:', error);
-      toast.error('Failed to load user info. Please try again.');
+      console.error("Error loading user info:", error);
+      toast.error("Failed to load user info. Please try again.");
     }
   };
 
   useEffect(() => {
-    // Ensure auth.currentUser is not null before accessing uid
-    if (auth.currentUser) {
-      const userRef = doc(db, "users", auth.currentUser.uid);
-      const unsubscribe = onSnapshot(userRef, (doc) => {
-        if (doc.exists()) {
-          const userData = doc.data();
-          setUserData(userData);
-
-          if (userData.avatar && userData.name) {
-            navigate('/chat');
-          } else {
-            navigate('/profile');
-          }
-
-          const now = Date.now();
-          if (lastSeen !== now) {
-            updateDoc(userRef, { lastSeen: now });
-            setLastSeen(now);
-          }
+    const intervalId = setInterval(async () => {
+      if (auth.chatUser) {
+        const userRef = doc(db, "users", auth.currentUser.uid);
+        const now = Date.now();
+        if (lastSeen !== now) {
+          // Check if we need to update
+          await updateDoc(userRef, { lastSeen: now });
+          setLastSeen(now);
         }
-      });
+      }
+    }, 300000); // update every 5 minutes
 
-      return () => unsubscribe();
-    } else {
-      // Handle case where user is not logged in
-      navigate('/login'); // Redirect to login page or handle accordingly
-    }
-  }, [lastSeen, navigate]);
+    return () => clearInterval(intervalId); // Cleanup on unmount
+  }, [lastSeen]); // depend on lastseen to update correctly
 
   useEffect(() => {
     if (userData) {
-      const chatRef = doc(db, 'chats', userData.id);
-      const unsubscribe = onSnapshot(chatRef, async (chatSnap) => {
-        const chatLogs = chatSnap.data()?.chatsData || [];
+      const chatRef = doc(db, "chats", userData.id);
+      const unSub = onSnapshot(
+        chatRef,
+        async (res) => {
+          const chatLogs = res.data()?.chatsData || []; // handle undefined chatsData
+          const tempData = [];
 
-        const userPromises = chatLogs.map(async (item) => {
-          const userRef = doc(db, 'users', item.rId);
-          const userSnap = await getDoc(userRef);
-          return { ...item, userData: userSnap.data() };
-        });
+          for (const item of chatLogs) {
+            const userRef = doc(db, "users", item.rId);
+            const userSnap = await getDoc(userRef);
+            const userData = userSnap.data();
+            tempData.push({ ...item, userData });
+          }
+          setChatData(tempData.sort((a, b) => b.updatedAt - a.updatedAt)); // recent chats on top and old on bottom
+        },
+        (error) => {
+          console.error("Snapshot error", error);
+        }
+      );
 
-        const chatWithUserData = await Promise.all(userPromises);
-        setChatData(chatWithUserData.sort((a, b) => b.updatedAt - a.updatedAt));
-      });
-
-      return () => unsubscribe();
+      return () => {
+        unSub();
+      };
     }
   }, [userData]);
 
@@ -97,11 +95,7 @@ const AppStateProvider = (props) => {
     loadUserData,
   };
 
-  return (
-    <AppState.Provider value={value}>
-      {props.children}
-    </AppState.Provider>
-  );
+  return <AppState.Provider value={value}>{props.children}</AppState.Provider>;
 };
 
 export default AppStateProvider;
