@@ -10,46 +10,38 @@ import { auth } from './config/firebase';
 import AppStateProvider, {AppState} from './context/AppState';
 
 const App = () => {
-
   const navigate = useNavigate();
   const { loadUserData, userData } = useContext(AppState);
-  const [hasNavigated, setHasNavigated] = useState(false);
 
   useEffect(()=> {
-    const unsubscribe = onAuthStateChanged(auth, async (user)=> {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         await loadUserData(user.uid); // Load user data first
 
         // redirect based on profile completion
-        if (!userData || !userData.name || !userData.avatar) {
-          navigate('/profile'); // navigate to profile if data is incomplete
+        if (userData && userData.name && userData.avatar) {
+          navigate('/chat'); // navigate to chat if data is complete
         } else {
-          navigate('/chat'); // navigate to chat if profile is complete
-        }
-        
-        setHasNavigated(true);
-      }
-      else {
-        if (!hasNavigated) {
+          navigate('/profile'); // navigate to profile if data is incomplete
+          }
+        } else {
           navigate('/'); // Navigate to login if not authenticated
-          setHasNavigated(true);
-        } 
-      }
-    });
-
-    return () => unsubscribe(); // Cleanup subscription on unmount
-  },[navigate, loadUserData, userData, hasNavigated]); // keep dependencies minimal
-
-  return (
-    <AppStateProvider>
-    <ToastContainer/>
-      <Routes>
-        <Route path='/' element={<Login />}/>
-        <Route path='/chat' element={<Chat />}/>
-        <Route path='/profile' element={<Update />}/>
-      </Routes>
-    </AppStateProvider>
-  );
-};
+          }
+        });
+        
+        return () => unsubscribe(); // Cleanup subscription on unmount
+        },[navigate, loadUserData, userData]); // keep dependencies minimal
+        
+        return (
+        <AppStateProvider>
+          <ToastContainer />
+          <Routes>
+            <Route path='/' element={<Login />} />
+            <Route path='/chat' element={<Chat />} />
+            <Route path='/profile' element={<Update />}/>
+            </Routes>
+            </AppStateProvider>
+            );
+          };
 
 export default App
