@@ -1,4 +1,4 @@
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { createContext, useEffect, useState } from "react";
 import { auth, db } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
@@ -9,23 +9,24 @@ export const AppState = createContext();
 const AppStateProvider = (props) => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
-  const [chatData, setChatData] = useState(null);
-  const [ lastSeen, setLastSeen ] = useState(null);
+  const [chatData, setChatData] = useState([]);
+  const [lastSeen, setLastSeen ] = useState(Date.now());
 
   const loadUserData = async (uid) => {
     try {
       const userRef = doc(db, "users", uid);
       const userSnap = await getDoc(userRef);
-      const userData = userSnap.data();
-      setUserData(userData);
-      if (userData.avatar && userData.name) {
-        navigate('/chat');
-      } else {
-        navigate('/profile');
+
+      if (!userSnap.exists()) {
+        throw new Error('User not found');
       }
 
+      const userData = userSnap.data();
+      setUserData(userData);
+      navigate(userData.avatar && userData.name ? '/chat' : '/profile');
+      
       const now = Date.now();
-      if (lastSeen !== now) { // ONly update if necessary
+      if (lastSeen !== now) { // Only update if necessary
         await updateDoc(userRef, { lastSeen: now});
           lastSeen(now);
       }
@@ -49,6 +50,30 @@ const AppStateProvider = (props) => {
 
     return () => clearInterval(intervalId); // Cleanup on unmount
   }, [lastSeen]); // depend on lastseen to update correctly
+
+  useEffect(() => {
+    if (userData) {
+      const chatRef = doc(db, 'chats', userData.id);
+      const unSub = onSnapshot(chatRef,async (res) => {
+        const chatLogs = res.data().chatsData;
+        const tempData = [];
+
+        for (const item of chatLogs){
+          const userRef = doc(db, 'users',item.rId);
+          const userSnap = await getDoc(userRef);
+          const userData = userSnap.data();
+          tempData.push({...item,userData});
+        }
+        setChatData(tempData.sort((a,b) => b.updatedAt - a.updatedAt)); // recent chats on top and old on bottom
+      }, (error) => {
+        console.error('Snapshot error', error);
+      });
+
+      return () => {
+        unSub();
+      };
+    }
+  }, [userData]);
 
   const value = {
     userData,setUserData,
