@@ -19,12 +19,12 @@ const App = () => {
     const unsubscribe = onAuthStateChanged(auth, async (user)=> {
       if (user) {
         await loadUserData(user.uid); // Load user data first
-        navigate('/chat'); // Then navigate
+        // navigate('/chat'); // Then navigate
         setHasNavigated(true);
       }
       else {
         if (!hasNavigated) {
-          navigate('/profile'); // Navigate to profile
+          navigate('/'); // Navigate to login if not authenticated
           setHasNavigated(true);
         } 
       }
@@ -37,12 +37,12 @@ const App = () => {
     <AppStateProvider>
     <ToastContainer/>
       <Routes>
-        <Route path='/' element={<Login/>}/>
-        <Route path='/chat' element={<Chat/>}/>
-        <Route path='/profile' element={<Update/>}/>
+        <Route path='/' element={<Login />}/>
+        <Route path='/chat' element={<Chat />}/>
+        <Route path='/profile' element={<Update />}/>
       </Routes>
     </AppStateProvider>
   );
-}
+};
 
 export default App
