@@ -2,9 +2,19 @@ import React, { useContext, useState } from 'react';
 import './Leftbar.css';
 import assets from '../../assets/assets';
 import { useNavigate } from 'react-router-dom';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { arrayUnion, collection, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import { AppState } from '../../context/AppState';
+
+const debounce = (func, delay) => {
+  let timeoutId;
+  return (...args) => {
+    if (timeoutId) clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      func.apply(null, args);
+    }, delay);
+  };
+};
 
 const Leftbar = () => {
   const navigate = useNavigate();
@@ -12,12 +22,12 @@ const Leftbar = () => {
   const [user, setUser] = useState(null);
   const [showSearch, setShowSearch] = useState(false);
 
-  const inputHandler = async (e) => {
-    const input = e.target.value;
+  const inputHandler = debounce(async (e) => {
+    const input = e.target.value.trim(); // Trim whitespace
     setUser(null); // Reset user when input changes
 
     try {
-      if (input) {
+      if (input && /^[a-zA-Z0-9_]+$/.test(input)) { // Validate input
         setShowSearch(true);
         const userRef = collection(db, 'users');
         const q = query(userRef, where('username', '==', input.toLowerCase()));
@@ -29,12 +39,45 @@ const Leftbar = () => {
           setUser(null);
         }
       } else {
-        setShowSearch(false);
+        setShowSearch(false); // Hide search if input is invalid or empty
       }
     } catch (error) {
       console.error("Error fetching user:", error);
     }
-  };
+  }, 300); // Adjust the delay as needed
+
+  const addChat = async () => {
+    const threadRef = collection(db,'threads');
+    const sessionsRef = collection(db,'sessions');
+    try {
+      const newThreadRef = doc(threadsRef);
+      await setDoc(newThreadRef,{
+        createAt:serverTimestamp(),
+        threads: []
+      })
+
+      await updateDoc(doc(sessionsRef, user.id),{
+        chatsData:arrayUnion({
+          threadId:newThreadRef.id,
+          lastThread:'',
+          rId:userData.id,
+          updateAt:Date.now(),
+          threadSeen:true
+        })
+      })
+      await updateDoc(doc(sessionsRef, userData.id),{
+        chatsData:arrayUnion({
+          threadId:newThreadRef.id,
+          lastThread:'',
+          rId:user.id,
+          updateAt:Date.now(),
+          threadSeen:true
+        })
+      })
+    } catch (error) {
+      
+    }
+  }
 
   return (
     <div className='lb'>
@@ -57,12 +100,12 @@ const Leftbar = () => {
       </div>
       <div className="lb-list">
         {showSearch && user ? (
-          <div className='contacts add-user'>
-            <img src={user?.avatar} alt="" />
-            <p>{user?.name}</p>
+          <div onClick={addChat} className='contacts add-user'>
+            <img src={user.avatar} alt="" />
+            <p>{user.name}</p>
           </div>
         ) : (
-          Array(13).fill('').map((_, index) => (
+          Array(13).fill('').map((item, index) => (
             <div key={index} className='contacts'>
               <img src={assets.precious} alt="" />
               <div>
