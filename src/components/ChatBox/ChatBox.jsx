@@ -85,7 +85,7 @@ const ChatBox = () => {
           <div key={index} className={thread.sId === userData.id ? 'r-post' : 't-post'}>
             <p className='post'>{thread.text}</p>
           <div>
-            <img src={assets.phin} alt="" />
+            <img src={thread.sId === userData.id ? userData.avatar : chatUser.userData.avatar} alt="" />
             <p>{new Date(thread.createAt).toLocaleTimeString()}</p> {/* Format timestamp */}
           </div>
         </div>
