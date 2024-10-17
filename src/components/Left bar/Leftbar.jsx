@@ -19,7 +19,7 @@ const debounce = (func, delay) => {
 
 const Leftbar = () => {
   const navigate = useNavigate();
-  const { userData, chatData} = useContext(AppState);
+  const { userData, chatData, chatUser, setChatUser, setThreadsId, ThreadsId} = useContext(AppState);
   const [user, setUser] = useState(null);
   const [showSearch, setShowSearch] = useState(false);
 
@@ -83,7 +83,8 @@ const Leftbar = () => {
   };
 
   const setChat = async (item) => {
-    console.log(item);
+    setThreadsId(item.threadId);
+    setChatUser(item)
   }
 
   return (
