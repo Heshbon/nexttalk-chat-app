@@ -50,7 +50,7 @@ const ChatBox = () => {
       </div>
     </div>
   )
-  :<div className='welcome to chat hub'>
+  :<div className='hello-there'>
     <img src={assets.logo} alt='' />
     <p>Chat Messaging, Simplified</p>
   </div>
