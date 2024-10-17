@@ -17,12 +17,13 @@ export const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+// Sign up a new user
 const signup = async (username,email,password) => {
 try {
   const res = await createUserWithEmailAndPassword(auth,email,password);
   const user = res.user;
 
-  // set user data
+  // Set user data in Firestore
   await setDoc(doc(db,'users',user.uid),{
     id:user.uid,
     username:username.toLowerCase(),
@@ -43,6 +44,7 @@ try {
 }
 }
 
+// Log in an existing user
 const login = async (email,password) => {
   try {
     await signInWithEmailAndPassword(auth,email,password);
@@ -52,6 +54,7 @@ const login = async (email,password) => {
   }
 }
 
+// Log out the current user
 const logout = async () => {
   try {
     await signOut(auth)
