@@ -1,117 +1,145 @@
 .Chat-bar{
-  background-color: #e0e7ff;
-  height: 75vh;
-  position: relative;
+  background-color: #e0e7ff; /* Light blue background */
+  height: 75vh; /* Height of chat area */
+  position: relative; /* Position for absolute elements inside */
 }
 .Chat-user{
-  align-items: center;
-  border-bottom: 1px solid #a0a0a0;
-  padding: 10px 15px;
-  gap: 10px;
-  display: flex;
+  align-items: center; /* Centre items vertically */
+  border-bottom: 1px solid #a0a0a0; /* Divider for user info */
+  padding: 10px 15px; /* Padding for user area */
+  gap: 10px; /* Space between items */
+  display: flex; /* Flex container */
 }
 .Chat-user img{
-  border-radius: 50%;
-  width: 26px;
+  border-radius: 50%; /* Circular user avatar */
+  width: 26px; /* Default size for small icons */
 }
 .Chat-user img:first-child{
-  aspect-ratio: 1/1;
-  width: 40px;
+  aspect-ratio: 1/1; /* Maintain aspect ratio */
+  width: 40px; /* Size for the main user avatar */
 }
 .Chat-user p{
-  font-size: 22px;
-  color: #4A90E2;
-  font-weight: 500;
-  flex: 1;
-  gap: 6px;
-  align-items: center;
-  display: flex;
+  font-size: 22px; /* Font size for user name */
+  color: #4A90E2; /* User name color */
+  font-weight: 500; /* Medium weight for text */
+  flex: 1; /* Allow to grow */
+  gap: 6px;  /* Space between items */
+  align-items: center; /* Align items vertically */
+  display: flex; /* Flex container */
 }
 .chat-data{
-  position: absolute;
-  gap: 11px;
-  align-items: center;
-  padding: 10px 15px;
-  display: flex;
-  background: white;
-  right: 0;
-  left: 0;
-  bottom: 0;
+  position: absolute; /* Positioned at the bottom */
+  gap: 11px; /* Space between items */
+  align-items: center; /* Center items vertically */
+  padding: 10px 15px; /* Padding for input area */
+  display: flex; /* Flex container */
+  background: white; /* Background color for input area */
+  right: 0; /* Align to the right */
+  left: 0; /* Stretch to the left */
+  bottom: 0; /* Position at the bottom */
 }
 .chat-data img{
-  cursor: pointer;
-  width: 32px;
+  cursor: pointer; /* Pointer on hover */
+  width: 32px; /* Size for icons */
 }
 .chat-data label{
-  display: flex;
+  display: flex; /* Flex container for label */
 }
 .chat-data label img{
-  width: 23px;
+  width: 23px; /* Size for gallery icon */
 }
 .chat-data input
 {
-  border: none;
-  outline: none;
-  flex: 1;
+  border: none; /* Remove default border */
+  outline: none; /* Remove outline on focus */
+  flex: 1; /* Allow to grow */
+  padding: 10px; /* Padding for input */
+  border-radius: 5px; /* Rounded corners */
+  background-color: #f0f0f0; /* Light background for input */
+  font-size: 14px; /* Font size for input */
 }
 .chat-post{
-  display: flex;
-  height: calc(100% - 72px);
-  padding-bottom: 50px;
-  flex-direction: column-reverse;
-  overflow-y: scroll;
+  display: flex; /* Flex container */
+  height: calc(100% - 72px); /* Height minus header */
+  padding-bottom: 50px; /* Space for input area */
+  flex-direction: column-reverse; /* Display newest messages at the bottom */
+  overflow-y: scroll; /* Allow vertical scrolling */
+  scroll-behavior: smooth; /* Smooth scroll behavior */
 }
 .t-post div img,.r-post div img{
-  aspect-ratio: 1/1;
-  border-radius: 50px;
-  width: 28px;
+  aspect-ratio: 1/1; /* Maintain aspect ratio */
+  border-radius: 50px; /* Rounded corners for timestamps */
+  width: 28px; /* Size for timestamp icons */
 }
 .t-post,.r-post{
-  justify-content: end;
-  padding: 0px 16px;
-  align-items: end;
-  display: flex;
-  gap: 6px;
+  justify-content: end; /* Align items to the end */
+  padding: 0px 16px; /* Padding for posts */
+  align-items: end; /* Align items to the bottom */
+  display: flex;  /* Flex container */
+  gap: 6px; /* Space between items */
 }
 .r-post{
-  justify-content: start;
-  flex-direction: row-reverse;
+  justify-content: start; /* Align to the start for received messages */
+  flex-direction: row-reverse; /* Reverse layout for received messages */
 }
 .post{
-  font-weight: 302;
-  max-width: 202px;
-  background-color: #0ABAB5;
-  border-radius: 9px 9px 0px 9px;
-  padding: 9px;
-  color: antiquewhite;
-  margin-bottom: 32px;
-  font-size: 13px;
+  font-weight: 302; /* Font weight for messages */
+  max-width: 202px; /* Max width for messages */
+  background-color: #0ABAB5; /* Background color for message bubbles */
+  border-radius: 9px 9px 0px 9px; /* Rounded corners for messages */
+  padding: 9px; /* Padding for messages */
+  color: antiquewhite; /* Text color for messages */
+  margin-bottom: 32px; /* Space below messages */
+  font-size: 13px; /* Font size for messages */
 }
 .r-post .post{
-  border-radius: 9px 9px 9px 0px;
+  border-radius: 9px 9px 9px 0px;  /* Adjust border radius for received messages */
 }
 .t-post div,.r-post div{
-  font-size: 10px;
-  text-align: center;
+  font-size: 10px; /* Font size for timestamp */
+  text-align: center;  /* Center align timestamp text */
 }
 .post-img{
-  margin-bottom: 32px;
-  border-radius: 9px;
-  max-width: 232px;
+  margin-bottom: 32px; /* Space below images */
+  border-radius: 9px; /* Rounded corners for images */
+  max-width: 232px; /* Max width for images */
 }
 .hello-there{
-  justify-content: center;
-  flex-direction: column;
-  gap: 6px;
-  display: flex;
-  width: 100%;
-  align-items: center;
+  justify-content: center; /* Center items */
+  flex-direction: column; /* Stack items vertically */
+  gap: 6px; /* Space between items */
+  display: flex; /* Flex container */
+  width: 100%; /* Full width */
+  align-items: center; /* Center items horizontally */
 }
 .hello-there img{
-  width: 58px;
+  width: 58px; /* Size for logo */
 }
 .hello-there p{
-  font-weight: 500;
-  color: #4A90E2;
-  font-size: 21px;
+  font-weight: 500; /* Font weight for welcome message */
+  color: #4A90E2; /* Color for welcome message */
+  font-size: 21px; /* Font size for welcome message */
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 600px) {
+  .Chat-bar {
+    height: 100vh; /* Full height on mobile */
+  }
+  .chat-data input {
+    font-size: 12px; /* Smaller font size for mobile */
+  }
+  .post {
+    max-width: 150px; /* Smaller max width for mobile */
+    font-size: 12px; /* Smaller font size for mobile */
+  }
+  .post-img {
+    max-width: 180px; /* Smaller max width for images on mobile */
+  }
+}
+
+/* Placeholder styling */
+.chat-data input::placeholder {
+  color: #aaa; /* Gray color for placeholder text */
+  font-size: 14px; /* Font size for placeholder */
 }
