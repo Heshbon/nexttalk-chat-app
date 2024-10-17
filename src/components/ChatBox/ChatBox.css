@@ -99,3 +99,19 @@
   border-radius: 9px;
   max-width: 232px;
 }
+.hello-there{
+  justify-content: center;
+  flex-direction: column;
+  gap: 6px;
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+.hello-there img{
+  width: 58px;
+}
+.hello-there p{
+  font-weight: 500;
+  color: #4A90E2;
+  font-size: 21px;
+}
