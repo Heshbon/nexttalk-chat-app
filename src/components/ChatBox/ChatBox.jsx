@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import './ChatBox.css'
 import assets from '../../assets/assets'
+import { AppState } from '../../context/AppState'
 
 const ChatBox = () => {
-  return (
+
+  const {userData, threadsId, chatUser, threads, setThreads} = useContext(AppState);
+
+  const [input, setInput] = useState('');
+
+  return chatUser ? (
     <div className='Chat-bar'>
       <div className='Chat-user'>
         <img src={assets.mary} alt="" />
@@ -44,6 +50,10 @@ const ChatBox = () => {
       </div>
     </div>
   )
+  :<div className='welcome to chat hub'>
+    <img src={assets.logo} alt='' />
+    <p>Chat Messaging, Simplified</p>
+  </div>
 }
 
 export default ChatBox
