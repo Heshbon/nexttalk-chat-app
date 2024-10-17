@@ -1,18 +1,20 @@
-.Chat{
-  display: grid;
-  min-height: 100vh;
-  place-items: center;
-  background: linear-gradient(#14171A,#AAB8C2);
+.Chat {
+  display: grid; /* Use grid layout for Chat component */
+  min-height: 100vh; /* Ensure full viewport height */
+  place-items: center; /* Center items within the container */
+  background: linear-gradient(#14171A, #AAB8C2); /* Background gradient */
 }
-.chat-container{
-  background-color: #FFFFFF;
-  max-width: 1000px;
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-  width: 96%;
-  height: 75vh;
+
+.chat-container {
+  background-color: #FFFFFF; /* White background for the chat container */
+  max-width: 1000px; /* Maximum width for the container */
+  display: grid; /* Use grid layout for chat layout */
+  grid-template-columns: 1fr 2fr 1fr; /* Define column proportions */
+  width: 96%; /* Width of the container */
+  height: 75vh; /* Height of the chat area */
 }
-.fetching{
-  color: antiquewhite;
-  font-size: 50px;
+
+.fetching {
+  color: antiquewhite; /* Text color for loading message */
+  font-size: 50px; /* Font size for loading message */
 }
