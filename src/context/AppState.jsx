@@ -50,7 +50,7 @@ const AppStateProvider = (props) => {
   // use a single interval for lastSeen updates
   useEffect(() => {
     const intervalId = setInterval(async () => {
-      if (auth.chatUser) {
+      if (auth.currentUser) { // Check if user is authenticated
         const userRef = doc(db, "users", auth.currentUser.uid);
         const now = Date.now();
         if (lastSeen !== now) {
@@ -62,7 +62,7 @@ const AppStateProvider = (props) => {
     }, 300000); // update every 5 minutes
 
     return () => clearInterval(intervalId); // Cleanup on unmount
-  }, [lastSeen]); // depend on lastseen to update correctly
+  }, [lastSeen]); // depend on lastSeen to update correctly
 
   // optimize chat data loading
   useEffect(() => {
@@ -76,14 +76,19 @@ const AppStateProvider = (props) => {
           // Use Promise.all to fetch data in parallel
           const userPromises = chatLogs.map(async (item) => {
             const userRef = doc(db, "users", item.rId);
-            const userSnap = await getDoc(userRef);
-            const userData = userSnap.data();
-            return { ...item, userData };
+            try {
+              const userSnap = await getDoc(userRef);
+              const userData = userSnap.data();
+              return { ...item, userData };
+            } catch (error) {
+              console.error("Error fetching user data:", error);
+              return null; // Return null for error handling
+            }
           });
 
           // Wait for all user data to be fetched
           const results = await Promise.all(userPromises);
-          setChatData(results.sort((a, b) => b.updatedAt - a.updatedAt)); // sort recent chats on top
+          setChatData(results.filter(item => item !== null).sort((a, b) => b.updatedAt - a.updatedAt)); // sort recent chats on top
         },
         (error) => {
           console.error("Snapshot error", error);
