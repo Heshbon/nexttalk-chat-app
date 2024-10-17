@@ -1,84 +1,108 @@
-.lb{
+.lb {
   height: 75vh;
   color: #A3C1DA;
   background: #333333;
+  display: flex;
+  flex-direction: column;
 }
-.lb-top{
+
+.lb-top {
   padding: 20px;
 }
-.lb-nav{
+
+.lb-nav {
   justify-content: space-between;
   align-items: center;
   display: flex;
 }
-.lb-nav .logo{
+
+.lb-nav .logo {
   max-width: 142px;
 }
-.lb-nav .menu img{
+
+.lb-nav .menu img {
   opacity: 0.5;
   cursor: pointer;
   max-height: 20px;
 }
-.lb-search{
+
+.lb-search {
   padding: 10px 12px;
   align-items: center;
   margin-top: 20px;
   background-color: #4CAF50;
   gap: 10px;
   display: flex;
+  border-radius: 5px; /* Rounded corners for better UI */
 }
-.lb-search img{
+
+.lb-search img {
   width: 16px;
 }
-.lb-search input{
+
+.lb-search input {
   outline: none;
   font-size: 12px;
   background: transparent;
   color: whitesmoke;
   border: none;
+  flex: 1; /* Ensure input takes up available space */
 }
-.lb-search input::placeholder{
+
+.lb-search input::placeholder {
   color: #FFFFFF;
 }
-.lb-list{
+
+.lb-list {
   height: 72%;
   display: flex;
-  overflow-y: scroll;
+  overflow-y: auto; /* Updated to 'auto' for more flexibility */
   flex-direction: column;
+  gap: 10px;
+  padding: 10px 0;
+  scrollbar-width: thin; /* Custom scroll bar for better aesthetics */
 }
-.contacts img{
-  aspect-ratio: 1/1;
+
+.contacts img {
+  aspect-ratio: 1 / 1;
   border-radius: 50%;
   width: 36px;
 }
-.contacts{
+
+.contacts {
   gap: 10px;
   cursor: pointer;
   padding: 10px 20px;
   display: flex;
   font-size: 14px;
   align-items: center;
+  transition: background-color 0.3s ease; /* Smooth hover transition */
 }
-.contacts div{
+
+.contacts div {
   flex-direction: column;
   display: flex;
 }
-.contacts span{
+
+.contacts span {
   font-size: 12px;
   color: #FFFFFF;
 }
-.contacts:hover{
+
+.contacts:hover {
   background-color: #FFB300;
 }
-.contacts:hover span{
+
+.contacts:hover span {
   color: whitesmoke;
 }
-.lb-nav .menu{
-  padding: 11px 0px;
+
+.lb-nav .menu {
+  padding: 11px 0;
   position: relative;
 }
 
-.menu .sub-menu{
+.menu .sub-menu {
   padding: 21px;
   right: 0;
   background-color: antiquewhite;
@@ -88,17 +112,32 @@
   border-radius: 6px;
   display: none;
   top: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Added shadow for better visibility */
 }
-.sub-menu hr{
+
+.sub-menu hr {
   background: #B0B0B0;
   border: none;
-  margin: 9px 0px;
+  margin: 9px 0;
   height: 1px;
 }
-.sub-menu p{
+
+.sub-menu p {
   font-size: 13px;
   cursor: pointer;
+  margin: 0;
+  padding: 5px 0; /* Improved padding */
 }
-.menu:hover .sub-menu{
+
+.menu:hover .sub-menu {
   display: block;
+}
+
+.error {
+  color: #FF4C4C; /* Color for error messages */
+  font-size: 12px;
+  padding: 5px 10px;
+  background-color: #FFDDDD;
+  border-radius: 5px;
+  margin: 10px;
 }
