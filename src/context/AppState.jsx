@@ -100,6 +100,9 @@ const AppStateProvider = (props) => {
     userData, setUserData,
     chatData, setChatData,
     loadUserData,
+    threads, setThreads,
+    threadsId, setThreadsId,
+    chatUser, setChatUser,
   };
 
   return <AppState.Provider value={value}>{props.children}</AppState.Provider>;
