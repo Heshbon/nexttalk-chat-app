@@ -7,10 +7,13 @@ import { toast } from "react-toastify";
 export const AppState = createContext();
 
 const AppStateProvider = (props) => {
-  const navigate = useNavigate(); // for navigation to the app
+  const navigate = useNavigate(); // For navigation to the app
   const [userData, setUserData] = useState(null);
   const [chatData, setChatData] = useState([]);
   const [lastSeen, setLastSeen] = useState(Date.now());
+  const [threadsId, setThreadsId] = useState(null);
+  const [threads, setThreads] = useState(null);
+  const [chatUser, setChatUser] = useState(null);
 
   // load user data and handle navigation
   const loadUserData = async (uid) => {
@@ -70,7 +73,7 @@ const AppStateProvider = (props) => {
         async (res) => {
           const chatLogs = res.data()?.chatsData || []; // handle undefined chatsData
           
-          // use Promise.all to fetch data in parallel
+          // Use Promise.all to fetch data in parallel
           const userPromises = chatLogs.map(async (item) => {
             const userRef = doc(db, "users", item.rId);
             const userSnap = await getDoc(userRef);
@@ -78,7 +81,7 @@ const AppStateProvider = (props) => {
             return { ...item, userData };
           });
 
-          // wait for all user data to be fetched
+          // Wait for all user data to be fetched
           const results = await Promise.all(userPromises);
           setChatData(results.sort((a, b) => b.updatedAt - a.updatedAt)); // sort recent chats on top
         },
