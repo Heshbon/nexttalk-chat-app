@@ -18,7 +18,7 @@ const debounce = (func, delay) => {
 
 const Leftbar = () => {
   const navigate = useNavigate();
-  const { userData } = useContext(AppState);
+  const { userData, chatData} = useContext(AppState);
   const [user, setUser] = useState(null);
   const [showSearch, setShowSearch] = useState(false);
 
@@ -36,7 +36,7 @@ const Leftbar = () => {
         if (!querySnap.empty && userData && querySnap.docs[0].data().id !== userData.id) {
           setUser(querySnap.docs[0].data());
         } else {
-          setUser(null);
+          setUser(null); // reset user if conditions are not met
         }
       } else {
         setShowSearch(false); // Hide search if input is invalid or empty
@@ -50,34 +50,34 @@ const Leftbar = () => {
     const threadRef = collection(db,'threads');
     const sessionsRef = collection(db,'sessions');
     try {
-      const newThreadRef = doc(threadsRef);
+      const newThreadRef = doc(threadRef);
       await setDoc(newThreadRef,{
         createAt:serverTimestamp(),
         threads: []
-      })
+      });
 
       await updateDoc(doc(sessionsRef, user.id),{
         chatsData:arrayUnion({
           threadId:newThreadRef.id,
           lastThread:'',
           rId:userData.id,
-          updateAt:Date.now(),
+          updateAt:Date.now(), // consistent field passing
           threadSeen:true
         })
-      })
+      });
       await updateDoc(doc(sessionsRef, userData.id),{
         chatsData:arrayUnion({
           threadId:newThreadRef.id,
           lastThread:'',
           rId:user.id,
-          updateAt:Date.now(),
+          updateAt:Date.now(), 
           threadSeen:true
         })
-      })
+      });
     } catch (error) {
       
     }
-  }
+  };
 
   return (
     <div className='lb'>
@@ -105,15 +105,15 @@ const Leftbar = () => {
             <p>{user.name}</p>
           </div>
         ) : (
-          Array(13).fill('').map((item, index) => (
+          (chatData && chatData.length > 0) ? chatData.map((item, index) => (
             <div key={index} className='contacts'>
-              <img src={assets.precious} alt="" />
+              <img src={item.userData.avatar} alt="" />
               <div>
-                <p>Precious Angel</p>
-                <span>Hey, how is life?</span>
+                <p>{item.userData.name}</p>
+                <span>{item.lastThread}</span>
               </div>
             </div>
-          ))
+          )) : <p>No chats available</p> // fallback message
         )}
       </div>
     </div>
