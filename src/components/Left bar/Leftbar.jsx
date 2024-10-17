@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import './Leftbar.css';
 import assets from '../../assets/assets';
 import { useNavigate } from 'react-router-dom';
@@ -22,11 +22,13 @@ const Leftbar = () => {
   const { userData, chatData, chatUser, setChatUser, setThreadsId, ThreadsId} = useContext(AppState);
   const [user, setUser] = useState(null);
   const [showSearch, setShowSearch] = useState(false);
+  const [erro, setError] = useState(null); // Error state
 
   // Handler for user input with debounce
   const inputHandler = debounce(async (e) => {
     const input = e.target.value.trim(); // Trim whitespace
     setUser(null); // Reset user when input changes
+    setError(null); // Clear error on input
 
     try {
       if (input && /^[a-zA-Z0-9_]+$/.test(input)) { // Validate input
@@ -55,7 +57,7 @@ const Leftbar = () => {
     try {
       const newThreadRef = doc(threadRef);
       await setDoc(newThreadRef,{
-        createAt:serverTimestamp(),
+        createAt: serverTimestamp(),
         threads: []
       });
 
@@ -64,7 +66,7 @@ const Leftbar = () => {
           threadId:newThreadRef.id,
           lastThread:'',
           rId:userData.id,
-          updateAt:Date.now(), // consistent field passing
+          updateAt: serverTimestamp(),
           threadSeen:true
         })
       });
@@ -73,18 +75,19 @@ const Leftbar = () => {
           threadId:newThreadRef.id,
           lastThread:'',
           rId:user.id,
-          updateAt:Date.now(), 
+          updateAt:serverTimestamp(),
           threadSeen:true
         })
       });
     } catch (error) {
       console.error(error)
+      setError('Failed to add chat');
     }
   };
 
   const setChat = async (item) => {
     setThreadsId(item.threadId);
-    setChatUser(item)
+    setChatUser(item);
   }
 
   return (
@@ -107,6 +110,7 @@ const Leftbar = () => {
         </div>
       </div>
       <div className="lb-list">
+        {error && <p className='error'>{error}</p>} {/* Display errors */}
         {showSearch && user ? (
           <div onClick={addChat} className='contacts add-user'>
             <img src={user.avatar} alt="" />
