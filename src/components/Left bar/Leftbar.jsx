@@ -6,6 +6,7 @@ import { arrayUnion, collection, getDocs, query, serverTimestamp, setDoc, update
 import { db } from '../../config/firebase';
 import { AppState } from '../../context/AppState';
 
+// Debounce function to limit the rate at which a function can fire
 const debounce = (func, delay) => {
   let timeoutId;
   return (...args) => {
@@ -22,6 +23,7 @@ const Leftbar = () => {
   const [user, setUser] = useState(null);
   const [showSearch, setShowSearch] = useState(false);
 
+  // Handler for user input with debounce
   const inputHandler = debounce(async (e) => {
     const input = e.target.value.trim(); // Trim whitespace
     setUser(null); // Reset user when input changes
@@ -36,7 +38,7 @@ const Leftbar = () => {
         if (!querySnap.empty && userData && querySnap.docs[0].data().id !== userData.id) {
           setUser(querySnap.docs[0].data());
         } else {
-          setUser(null); // reset user if conditions are not met
+          setUser(null); // Reset user if conditions are not met
         }
       } else {
         setShowSearch(false); // Hide search if input is invalid or empty
@@ -46,6 +48,7 @@ const Leftbar = () => {
     }
   }, 300); // Adjust the delay as needed
 
+  // Function to add chat
   const addChat = async () => {
     const threadRef = collection(db,'threads');
     const sessionsRef = collection(db,'sessions');
@@ -75,9 +78,13 @@ const Leftbar = () => {
         })
       });
     } catch (error) {
-      
+      console.error(error)
     }
   };
+
+  const setChat = async (item) => {
+    console.log(item);
+  }
 
   return (
     <div className='lb'>
@@ -106,7 +113,7 @@ const Leftbar = () => {
           </div>
         ) : (
           (chatData && chatData.length > 0) ? chatData.map((item, index) => (
-            <div key={index} className='contacts'>
+            <div onClick={()=>setChat(item)} key={index} className='contacts'>
               <img src={item.userData.avatar} alt="" />
               <div>
                 <p>{item.userData.name}</p>
