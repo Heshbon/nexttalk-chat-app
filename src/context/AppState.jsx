@@ -12,6 +12,7 @@ const AppStateProvider = (props) => {
   const [chatData, setChatData] = useState([]);
   const [lastSeen, setLastSeen] = useState(Date.now());
 
+  // load user data and handle navigation
   const loadUserData = async (uid) => {
     try {
       const userRef = doc(db, "users", uid);
@@ -31,9 +32,9 @@ const AppStateProvider = (props) => {
         navigate("/profile"); // navigate to profile if incomplete
       }
 
+      // update the last seen timestamp if necessary
       const now = Date.now();
       if (lastSeen !== now) {
-        // Only update if necessary
         await updateDoc(userRef, { lastSeen: now });
         setLastSeen(now);
       }
@@ -43,13 +44,14 @@ const AppStateProvider = (props) => {
     }
   };
 
+  // use a single interval for lastSeen updates
   useEffect(() => {
     const intervalId = setInterval(async () => {
       if (auth.chatUser) {
         const userRef = doc(db, "users", auth.currentUser.uid);
         const now = Date.now();
         if (lastSeen !== now) {
-          // Check if we need to update
+          // Check if we need to update lastSeen
           await updateDoc(userRef, { lastSeen: now });
           setLastSeen(now);
         }
@@ -59,6 +61,7 @@ const AppStateProvider = (props) => {
     return () => clearInterval(intervalId); // Cleanup on unmount
   }, [lastSeen]); // depend on lastseen to update correctly
 
+  // optimize chat data loading
   useEffect(() => {
     if (userData) {
       const chatRef = doc(db, "chats", userData.id);
@@ -66,15 +69,18 @@ const AppStateProvider = (props) => {
         chatRef,
         async (res) => {
           const chatLogs = res.data()?.chatsData || []; // handle undefined chatsData
-          const tempData = [];
           
-          for (const item of chatLogs) {
+          // use Promise.all to fetch data in parallel
+          const userPromises = chatLogs.map(async (item) => {
             const userRef = doc(db, "users", item.rId);
             const userSnap = await getDoc(userRef);
             const userData = userSnap.data();
-            tempData.push({ ...item, userData });
-          }
-          setChatData(tempData.sort((a, b) => b.updatedAt - a.updatedAt)); // recent chats on top and old on bottom
+            return { ...item, userData };
+          });
+
+          // wait for all user data to be fetched
+          const results = await Promise.all(userPromises);
+          setChatData(results.sort((a, b) => b.updatedAt - a.updatedAt)); // sort recent chats on top
         },
         (error) => {
           console.error("Snapshot error", error);
