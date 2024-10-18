@@ -23,12 +23,14 @@ const Leftbar = () => {
   const [user, setUser] = useState(null); // Searched user state
   const [showSearch, setShowSearch] = useState(false); // Toggle for search view
   const [error, setError] = useState(null); // Error handling state
+  const [loading, setLoading] = useState(false);
 
   // Input handler with debounce to fetch user data based on search input
   const inputHandler = debounce(async (e) => {
     const input = e.target.value.trim().toLowerCase(); // Sanitize input
     setUser(null); // Reset the user state on every change
     setError(null); // Clear error state on input change
+    setLoading(true);
 
     try {
       if (input && /^[a-zA-Z0-9_]+$/.test(input)) { // Validate input for allowed characters
@@ -48,6 +50,8 @@ const Leftbar = () => {
     } catch (error) {
       console.error("Error fetching user:", error); // Log error
       setError('Error fetching user data'); // Set error message
+    } finally {
+      setLoading(false);
     }
   }, 300); // Debounce delay of 300ms
 
@@ -57,17 +61,13 @@ const Leftbar = () => {
     try {
       const threadRef = collection(db, 'threads');
       const newThreadRef = doc(threadRef); // Create new thread doc reference
-
-      // Create a new thread document in Firestore
       await setDoc(newThreadRef, {
         createAt: serverTimestamp(),
         threads: [],
       });
 
       const sessionRef = collection(db, 'sessions');
-      
-      // Add chat data for the selected user
-      await updateDoc(doc(sessionRef, user.id), {
+      await updateDoc(doc(sessionRef, user.id), { // // Add chat data for the selected user
         chatsData: arrayUnion({
           threadId: newThreadRef.id,
           lastThread: '',
@@ -90,6 +90,7 @@ const Leftbar = () => {
 
       setUser(null); // Reset the search field after adding chat
       setShowSearch(false);
+      navigate('/chat/${newThreadRef.id}');
     } catch (error) {
       console.error("Error adding chat:", error);
       setError('Failed to add chat'); // Display error message
