@@ -1,22 +1,22 @@
 import React, { useContext, useEffect, useState } from 'react';
-import './Profile.css'; // Import CSS for Profile component
-import assets from '../../assets/assets'; // Import assets
-import { onAuthStateChanged } from 'firebase/auth'; // Firebase authentication
-import { auth, db } from '../../config/firebase'; // Firebase configuration
-import { doc, getDoc, updateDoc } from 'firebase/firestore'; // Firestore functions
-import { useNavigate } from 'react-router-dom'; // React Router for navigation
-import { toast } from 'react-toastify'; // Toast notifications
-import upload from '../../lib/fileupload'; // File upload utility
-import { AppState } from '../../context/AppState'; // Import AppState context
+import './Profile.css';
+import assets from '../../assets/assets';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth, db } from '../../config/firebase';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom'; 
+import { toast } from 'react-toastify';
+import upload from '../../lib/fileupload';
+import { AppState } from '../../context/AppState';
 
 const Profile = () => {
-  const navigate = useNavigate(); // Hook for navigation
-  const [image, setImage] = useState(false); // State for profile image
-  const [name, setName] = useState(''); // State for user's name
-  const [info, setInfo] = useState(''); // State for user info
-  const [uid, setUid] = useState(''); // State for user ID
-  const [lastImage, setLastIMage] = useState(''); // State for last uploaded image
-  const { setUserData } = useContext(AppState); // Set user data in context
+  const navigate = useNavigate();
+  const [image, setImage] = useState(false);
+  const [name, setName] = useState('');
+  const [info, setInfo] = useState('');
+  const [uid, setUid] = useState('');
+  const [lastImage, setLastIMage] = useState('');
+  const { setUserData } = useContext(AppState);
 
   // Function to update the user's profile
   const updateProfile = async (event) => {
@@ -24,15 +24,14 @@ const Profile = () => {
     try {
       // Check if an image is selected
       if (!lastImage && !image) {
-        toast.error('Choose your profile image'); // Show error if no image
-        return; // Stop further execution if no image
+        toast.error('Choose your profile image');
+        return;
       }
 
-      const docRef = doc(db, 'users', uid); // Reference to the user's document
-      // Upload new image if selected
+      const docRef = doc(db, 'users', uid);
       if (image) {
-        const imgUrl = await upload(image); // Upload image
-        setLastIMage(imgUrl); // Update last image state
+        const imgUrl = await upload(image);
+        setLastIMage(imgUrl);
         // Update user's document in Firestore
         await updateDoc(docRef, {
           avatar: imgUrl,
@@ -49,8 +48,8 @@ const Profile = () => {
 
       // Fetch the updated user document
       const snap = await getDoc(docRef);
-      setUserData(snap.data()); // Update user data in context
-      toast.success('Profile updated successfully!'); // Show success message
+      setUserData(snap.data());
+      toast.success('Profile updated successfully!');
       navigate('/chat'); // Navigate to chat after updating
     } catch (error) {
       console.error(error); // Log any errors
@@ -60,30 +59,28 @@ const Profile = () => {
 
   // Effect to check authentication state and fetch user data
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
         setUid(user.uid); // Set user ID
-        const docRef = doc(db, 'users', user.uid); // Reference to the user's document
-        const docSnap = await getDoc(docRef); // Get user document snapshot
-        if (docSnap.exists()) {
-          const data = docSnap.data(); // Extract data from snapshot
-          setName(data.name || ''); // Set name state
-          setInfo(data.info || ''); // Set info state
-          setLastIMage(data.avatar || ''); // Set last image state
-          setUserData(data); // Set user data if it exists
-        } else {
-          toast.error('Your profile is not set up yet. Please complete your profile.'); // Error if no profile exists
-          navigate('/profile'); // Redirect to profile to set it up
+        const docRef = doc(db, 'users', user.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.data().name) { // Set name state
+          setName(docSnap.data().name);
         }
-      } else {
-        navigate('/'); // Redirect to home if not authenticated
+        if (docSnap.data().info) {
+          setInfo(docSnap.data().info);
+        }
+        if (docSnap.data().avatar) {
+          setLastIMage(docSnap.data().avatar);
+        }
       }
-    });
-
-    return () => unsubscribe(); // Cleanup on unmount
-  }, []);
-
-  return (
+      else {
+        navigate('/'); // Redirect to home if not authenticated
+        }
+      })
+    }, []);
+    
+    return (
     <div className='account'>
       <div className="account-container">
         <form onSubmit={updateProfile}>
