@@ -82,14 +82,14 @@ const ChatBox = () => {
       
       <div className='chat-post'>
         {threads.map((thread, index) =>(
-          <div key={index} className={thread.sId === userData.id ? 'r-post' : 't-post'}>
+          <div key={thread.Id || index} className={thread.sId === userData.id ? 'r-post' : 't-post'}>
             <p className='post'>{thread.text}</p>
           <div>
             <img src={thread.sId === userData.id ? userData.avatar : chatUser.userData.avatar} alt="" />
             <p>{new Date(thread.createAt).toLocaleTimeString()}</p> {/* Format timestamp */}
           </div>
         </div>
-        ))}
+        ))};
       </div>
       
       <div className="chat-data">
@@ -98,7 +98,7 @@ const ChatBox = () => {
         placeholder='Post a Message'
         onChange={(e) => setInput(e.target.value)}
         value={input}
-        onKeyPress={handleKeyPress}
+        onKeyDown={handleKeyPress}
         />
         <input type="file" id='image' accept='image/jpeg, image/png' hidden/>
         <label htmlFor="image">
