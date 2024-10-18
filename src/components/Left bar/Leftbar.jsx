@@ -1,73 +1,67 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './Leftbar.css';
 import assets from '../../assets/assets';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { arrayUnion, collection, doc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore';
-import { db } from '../../config/firebase';
+import { db, logout} from '../../config/firebase';
 import { AppState } from '../../context/AppState';
-
-// Debounce function to optimize input handling (reduce unnecessary API calls)
-const debounce = (func, delay) => {
-  let timeoutId;
-  return (...args) => {
-    if (timeoutId) clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => {
-      func.apply(null, args);
-    }, delay);
-  };
-};
 
 const Leftbar = () => {
   const navigate = useNavigate();
-  const { userData, chatData, setChatUser, setThreadsId } = useContext(AppState); // Destructured context
-  const [user, setUser] = useState(null); // Searched user state
-  const [showSearch, setShowSearch] = useState(false); // Toggle for search view
-  const [error, setError] = useState(null); // Error handling state
-  const [loading, setLoading] = useState(false);
+  const { userData, chatData, chatUser, setChatUser, setThreadsId, threadsId, chatVisible, setChatVisible } = useContext(AppState); // Destructured context
+  const [user, setUser] = useState(null); // Initialize state for user
+  const [showSearch, setShowSearch] = useState(false)
 
   // Input handler with debounce to fetch user data based on search input
-  const inputHandler = debounce(async (e) => {
-    const input = e.target.value.trim().toLowerCase(); // Sanitize input
-    setUser(null); // Reset the user state on every change
-    setError(null); // Clear error state on input change
-    setLoading(true);
-
-    try {
-      if (input && /^[a-zA-Z0-9_]+$/.test(input)) { // Validate input for allowed characters
-        setShowSearch(true);
-        const userRef = collection(db, 'users');
-        const q = query(userRef, where('username', '==', input)); // Query for the username in Firestore
-        const querySnap = await getDocs(q);
-
-        if (!querySnap.empty && userData && querySnap.docs[0].data().id !== userData.id) {
-          setUser(querySnap.docs[0].data()); // Set the fetched user data
-        } else {
-          setUser(null); // No user found
-        }
-      } else {
-        setShowSearch(false); // Hide search result if input is invalid
+  const inputHandler = async (e) => {
+      try {
+        const input = e.target.value;
+        if (input) {
+          setShowSearch(true);
+          const userRef = collection(db, 'users');
+          const q = query(userRef, where('username', '==', input.toLowerCase()));
+          const querySnap = await getDocs(q);
+          if (!querySnap.empty && querySnap.docs[0].data().id !== userData.id) {
+              let userExist = false;
+              chatData.map((user) => {
+                  if (user.rId === querySnap.docs[0].data().id) {
+                      userExist = true;
+                    }
+                  })
+                  if (!userExist) {
+                      setUser(querySnap.docs[0].data());
+                  }
+              }
+              else {
+                  setUser(null)
+              }
+          }
+          else {
+              setShowSearch(false);
+          }
+      } catch (error) {
+        toast.error(error.message || 'Something went wrong');
       }
-    } catch (error) {
-      console.error("Error fetching user:", error); // Log error
-      setError('Error fetching user data'); // Set error message
-    } finally {
-      setLoading(false);
-    }
-  }, 300); // Debounce delay of 300ms
+  }
 
   // Function to add a chat session
   const addChat = async () => {
-    if (!user) return; // Ensure user exists before proceeding
+    const threadRef = collection(db, 'threads');
+    const chatsRef = collection(db, 'chats');
     try {
-      const threadRef = collection(db, 'threads');
-      const newThreadRef = doc(threadRef); // Create new thread doc reference
-      await setDoc(newThreadRef, {
-        createAt: serverTimestamp(),
-        threads: [],
-      });
+        if (user.id === userData.id) {
+            return 0
+        }
+        const newThreadRef = doc(threadsRef);
 
-      const sessionRef = collection(db, 'sessions');
-      await updateDoc(doc(sessionRef, user.id), { // // Add chat data for the selected user
+        await setDoc(newThreadRef, {
+            createAt: serverTimestamp(),
+            threads: []
+        })
+    
+      // Add chat data for the selected user
+      await updateDoc(doc(chatsRef, user.id), {
         chatsData: arrayUnion({
           threadId: newThreadRef.id,
           lastThread: '',
@@ -78,7 +72,7 @@ const Leftbar = () => {
       });
 
       // Add chat data for the current user
-      await updateDoc(doc(sessionRef, userData.id), {
+      await updateDoc(doc(chatsRef, userData.id), {
         chatsData: arrayUnion({
           threadId: newThreadRef.id,
           lastThread: '',
@@ -88,23 +82,52 @@ const Leftbar = () => {
         }),
       });
 
-      setUser(null); // Reset the search field after adding chat
-      setShowSearch(false);
-      navigate('/chat/${newThreadRef.id}');
-    } catch (error) {
-      console.error("Error adding chat:", error);
-      setError('Failed to add chat'); // Display error message
+      const uSnap = await getDoc(doc(db, 'users', user.id));
+            const uData = uSnap.data();
+            setChat({
+                threadId: newThreadRef.id,
+                lastThread: '',
+                rId: user.id,
+                updatedAt: Date.now(),
+                threadSeen: true,
+                userData: uData,
+            });
+            setShowSearch(false)
+            setChatVisible(true)
+        } catch (error) {
+            toast.error(error.message) // Display error message
+        }
     }
-  };
 
-  // Set the selected chat when clicked
-  const setChat = (item) => {
-    setThreadsId(item.threadId); // Set the current thread
-    setChatUser(item); // Set the selected chat user
-  };
+    // Set the selected chat when clicked
+    const setChat = async (item) => {
+      setThreadsId(item.threadId); // Set the current thread
+      setChatUser(item); // Set the selected chat user
+      const userChatsRef = doc(db, "chats", userData.id);
+      const userChatsSnapshot = await getDoc(userChatsRef);
+      const userChatsData = userChatsSnapshot.data();
+      const chatIndex = userChatsData.chatsData.findIndex((c) => c.threadId === item.threadId);
+      userChatsData.chatsData[chatIndex].threadSeen = true;
+      await updateDoc(userChatsRef, {
+          chatsData: userChatsData.chatsData,
+      });
+      setChatVisible(true)
+  }
+
+  useEffect(() => {
+    const updateChatUserData = async () => {
+        if (chatUser) {
+            const userRef = doc(db, "users", chatUser.userData.id);
+            const userSnap = await getDoc(userRef);
+            const userData = userSnap.data();
+            setChatUser(prev => ({ ...prev, userData: userData }))
+        }
+    }
+    updateChatUserData();
+}, [chatData])
 
   return (
-    <div className="lb">
+    <div className={`lb ${chatVisible ? "hidden" : ""}`}>
       <div className="lb-top">
         <div className="lb-nav">
           <img src={assets.logo} className="logo" alt="App Logo" />
@@ -113,11 +136,11 @@ const Leftbar = () => {
             <div className="sub-menu">
               <p onClick={() => navigate('/profile')}>Edit profile</p>
               <hr />
-              <p>Logout</p>
+              <p onClick={() => logout()}>Logout</p>
             </div>
           </div>
-        </div>
 
+        </div>
         <div className="lb-search">
           <img src={assets.search_icon} alt="Search Icon" />
           <input onChange={inputHandler} type="text" placeholder="Search here..." />
@@ -125,8 +148,6 @@ const Leftbar = () => {
       </div>
 
       <div className="lb-list">
-        {error && <p className="error">{error}</p>} {/* Display error message if any */}
-
         {/* Display user search results */}
         {showSearch && user ? (
           <div onClick={addChat} className="contacts add-user">
