@@ -74,3 +74,9 @@
   font-weight: 301; /* Lighter font weight */
   transform: translateX(-50%); /* Adjusts centering */
 }
+
+@media (max-width: 850px) {
+  .rb{
+    display: none;
+  }
+}

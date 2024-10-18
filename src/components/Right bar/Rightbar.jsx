@@ -1,42 +1,43 @@
-import React from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import './Rightbar.css';
 import assets from '../../assets/assets';
 import { logout } from '../../config/firebase';
+import { AppState } from '../../context/AppState';
 
 const Rightbar = () => {
 
-  // Handle user logout
-  const handleLogout = async () => {
-    try {
-      await logout();
-      console.log('User logged out successfully');
-    } catch (error) {
-      console.error('Logout failed:', error);
-    }
-  };
+  const { chatUser, threads } = useContext(AppState);
+  const [ threadImages, setThreadImages] = useState([]);
 
-  return (
+  useEffect (() => {
+    let tempData = [];
+    threads.map((thread) => {
+      if (thread.image) {
+        tempData.push(thread.image)
+      }
+    })
+    setThreadImages(tempData);
+  }, [threads])
+
+  return chatUser ? (
     <div className='rb'>
-      <div className="rb-profile">
-        <img src={assets.erik} alt="Profile" />
-        <h3>Erik Beth <img src={assets.bluedot_icon} className='dot' alt="Active status" /></h3>
-        <p>Hello, I am Erik and glad to connect with you.</p>
+      <div className='rb-profile'>
+        <img src={chatUser.userData.avatar} alt="" />
+        <h3>{Date.now() - chatUser.userData.lastSeen <= 70000 ?<img className='dot' src={assets.bluedot_icon}alt=''/>:null}{chatUser.userData.name}</h3>
+        <p>{chatUser.userData.info}</p>
       </div>
-      <hr />
-      <div className='rb-media'>
+      <hr/>
+      <div className="rb-media">
         <p>Media</p>
-        <div className='media-gallery'>
-          <img src={assets.photo1} alt="Media 1" />
-          <img src={assets.pict2} alt="Media 2" />
-          <img src={assets.pict3} alt="Media 3" />
-          <img src={assets.pict4} alt="Media 4" />
-          <img src={assets.photo1} alt="Media 5" />
-          <img src={assets.pict2} alt="Media 6" />
+        <div>
+        {threadImages.map((url,index)=>(<img onClick={()=>window.open(url)} key={index} src={url} alt="" />))}
         </div>
-      </div>
-      <button onClick={handleLogout}>Logout</button>
+        </div>
+      <button onClick={()=>logout()}>Logout</button>
     </div>
-  );
+  ) : <div className='rb'>
+  <button onClick={()=>logout()}>Logout</button>
+</div>
 }
 
 export default Rightbar;
