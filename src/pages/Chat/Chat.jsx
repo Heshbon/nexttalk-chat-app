@@ -12,17 +12,14 @@ const Chat = () => {
 
   // Effect to check if data has been fetched
   useEffect(() => {
-    console.log('chatData:', chatData);
-    console.log('userData:', userData);
-    if (chatData.length > 0 && userData) {
+    if (chatData && userData) {
       setFetching(false); // Stop fetching if data is available
-    }
-  }, [chatData, userData]);
-
-  return (
+      }
+    }, [chatData, userData])
+    
+    return (
     <div className='Chat'>
-      {
-        fetching
+      {fetching
           ? <p className='fetching'>fetching...</p> // Show loading message
           : <div className="chat-container">
               <Leftbar /> // Render Leftbar component
