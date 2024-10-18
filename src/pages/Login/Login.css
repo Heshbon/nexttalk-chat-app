@@ -1,66 +1,72 @@
 .login {
-  background: url(/background_icon.png) no-repeat; /* Background image for login */
-  background-size: cover; /* Cover the entire area */
-  display: flex; /* Use flexbox for layout */
-  justify-content: space-evenly; /* Space items evenly */
-  min-height: 100vh; /* Minimum height of the login section */
-  align-items: center; /* Align items center vertically */
+  background: url(/background_icon.png) no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: space-evenly; 
+  min-height: 100vh;
+  align-items: center; 
 }
 
 .login .logo {
-  width: max(20vw, 200px); /* Responsive logo size */
+  width: max(20vw, 200px);
 }
 
 .login-form {
-  flex-direction: column; /* Stack form elements vertically */
-  padding: 20px 30px; /* Padding around the form */
-  gap: 20px; /* Space between form elements */
-  display: flex; /* Use flexbox for form layout */
-  border-radius: 10px; /* Rounded corners */
-  background: lightgrey; /* Background color for form */
+  flex-direction: column;
+  padding: 20px 30px;
+  gap: 20px;
+  display: flex;
+  border-radius: 10px;
+  background: lightgrey;
 }
 
 .login-form h2 {
-  font-weight: 510; /* Font weight for the heading */
+  font-weight: 510;
 }
 
 .form-input {
-  outline-color: #A8C8FF; /* Outline color on focus */
-  padding: 9px 10px; /* Padding inside inputs */
-  border-radius: 5px; /* Rounded corners for inputs */
-  border: 1.5px solid #4A4A4A; /* Border color for inputs */
+  outline-color: #A8C8FF;
+  padding: 9px 10px;
+  border: 1.5px solid #4A4A4A;
 }
 
 .login-form button {
-  cursor: pointer; /* Pointer cursor for button */
-  background-color: #4A4A4A; /* Background color for button */
-  font-size: 17px; /* Font size for button text */
-  color: white; /* Text color for button */
-  padding: 9px; /* Padding for button */
-  border-radius: 5px; /* Rounded corners for button */
-  border: none; /* No border */
+  cursor: pointer; 
+  background-color: #4A4A4A;
+  font-size: 17px;
+  color: white;
+  padding: 9px;
+  border-radius: 5px; 
+  border: none; 
 }
 
 .login-term {
-  color: #077EFF; /* Text color for terms and conditions */
-  gap: 5px; /* Space between term elements */
-  display: flex; /* Use flexbox for layout */
-  font-size: 12px; /* Font size for terms text */
+  color: #077EFF;
+  gap: 5px;
+  display: flex;
+  font-size: 12px;
 }
 
 .login-forgot {
-  gap: 5px; /* Space between forgot elements */
-  display: flex; /* Use flexbox for layout */
-  flex-direction: column; /* Stack items vertically */
+  gap: 5px;
+  display: flex;
+  flex-direction: column;
 }
 
 .login-toggle {
-  color: #077EFF; /* Text color for toggle links */
-  font-size: 13px; /* Font size for toggle text */
+  color: #077EFF;
+  font-size: 13px;
 }
 
 .login-toggle span {
-  cursor: pointer; /* Pointer cursor for clickable spans */
-  font-weight: 505; /* Font weight for clickable spans */
-  color: #4A4A4A; /* Text color for clickable spans */
+  cursor: pointer;
+  font-weight: 505;
+  color: #4A4A4A;
+}
+@media (max-width:765px) {
+  .login{
+    justify-content: center;
+    gap: 28px;
+    flex-direction: column;
+  }
 }
