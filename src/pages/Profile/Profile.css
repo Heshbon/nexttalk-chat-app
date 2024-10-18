@@ -1,65 +1,79 @@
 .account {
-  background: url(/background_icon.png) no-repeat; /* Background image */
-  background-size: cover; /* Cover the entire area */
-  align-items: center; /* Align items center */
-  display: flex; /* Use flexbox for layout */
-  justify-content: center; /* Center content horizontally */
-  min-height: 100vh; /* Minimum height of the account section */
+  background: url(/background_icon.png) no-repeat;
+  background-size: cover;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
 }
 
 .account-container {
-  justify-content: space-between; /* Space between child elements */
-  min-width: 702px; /* Minimum width of the container */
-  display: flex; /* Use flexbox for layout */
-  background: antiquewhite; /* Background color for the container */
-  border-radius: 11px; /* Rounded corners */
-  align-items: center; /* Align items center vertically */
+  justify-content: space-between;
+  min-width: 702px;
+  display: flex;
+  background: antiquewhite;
+  border-radius: 11px;
+  align-items: center;
 }
 
 .account-pict {
-  margin: 20px auto; /* Center margin for profile picture */
-  max-width: 162px; /* Maximum width for profile picture */
-  border-radius: 50%; /* Circular profile picture */
-  aspect-ratio: 1/1; /* Maintain aspect ratio */
+  margin: 20px auto;
+  max-width: 162px;
+  border-radius: 50%;
+  aspect-ratio: 1/1;
 }
 
 .account form {
-  gap: 21px; /* Space between form elements */
-  display: flex; /* Use flexbox for form layout */
-  padding: 41px; /* Padding around the form */
-  flex-direction: column; /* Stack form elements vertically */
+  gap: 21px;
+  display: flex;
+  padding: 41px;
+  flex-direction: column;
 }
 
 .account form h3 {
-  font-weight: 502; /* Font weight for the heading */
+  font-weight: 502;
 }
 
 .account label {
-  gap: 11px; /* Space between label elements */
-  cursor: pointer; /* Pointer cursor for clickable labels */
-  display: flex; /* Use flexbox for label layout */
-  color: #003366; /* Text color for labels */
-  align-items: center; /* Align items center */
+  gap: 11px;
+  cursor: pointer;
+  display: flex;
+  color: #003366;
+  align-items: center;
 }
 
 .account label img {
-  aspect-ratio: 1/1; /* Maintain aspect ratio for image */
-  border-radius: 50%; /* Circular image for avatar */
-  width: 50px; /* Fixed width for avatar */
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  width: 50px;
 }
 
 .account input, textarea {
-  border: 1px solid #81D4FA; /* Border color for inputs */
-  padding: 11px; /* Padding inside inputs */
-  outline-color: #FF5722; /* Outline color on focus */
-  min-width: 300px; /* Minimum width for inputs */
+  border: 1px solid #81D4FA;
+  padding: 11px;
+  outline-color: #FF5722;
+  min-width: 300px;
 }
 
 .account form button {
-  padding: 9px; /* Padding for button */
-  border: none; /* No border */
-  color: #2C3E50; /* Text color for button */
-  cursor: pointer; /* Pointer cursor for button */
-  background-color: #FF9800; /* Background color for button */
-  font-size: 16px; /* Font size for button text */
+  padding: 9px;
+  border: none;
+  color: #2C3E50;
+  cursor: pointer;
+  background-color: #FF9800;
+  font-size: 16px;
+}
+@media (media-width:765px) {
+  .account-pict{
+    width: 98px;
+  }
+  .account-container{
+    flex-direction: column-reverse;
+  }
+  .account form{
+    padding: 19px;
+  }
+  .account label img{
+    width: 28px;
+  }
 }
