@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { createUserWithEmailAndPassword, getAuth, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { collection, doc, getDocs, getFirestore, query, setDoc, where } from "firebase/firestore";
 import { toast } from "react-toastify";
 
 const firebaseConfig = {
@@ -20,11 +20,17 @@ const db = getFirestore(app);
 // Sign up a new user
 const signup = async (username,email,password) => {
 try {
-  const res = await createUserWithEmailAndPassword(auth,email,password);
+  const usersRef = collection(db,'users');
+  const q = query(usersRef, where('username', '==', username.toLowerCase()));
+  const querySnapshot = await getDocs(q);
+  if (querySnapshot.docs.length>0) {
+    toast.error('Username not available');
+    return;
+  }
+  const res = await createUserWithEmailAndPassword(auth, email, password)
   const user = res.user;
 
-  // Set user data in Firestore
-  await setDoc(doc(db,'users',user.uid),{
+  await setDoc(doc(db,'users', user.uid), {
     id:user.uid,
     username:username.toLowerCase(),
     email,
@@ -35,9 +41,9 @@ try {
   });
 
   // Create a chat document for the user
-  await setDoc(doc(db, 'chats', user.uid), {
-    chatsData:[]
-  });
+  await setDoc(doc(db, 'chats', user.uid), { chatsData:[] });
+  toast.success('Account created successfully!');
+
 } catch (error) {
   console.error(error)
   toast.error(error.code.split('/')[1].split('-').join(' '));
@@ -47,22 +53,37 @@ try {
 // Log in an existing user
 const login = async (email,password) => {
   try {
-    await signInWithEmailAndPassword(auth,email,password);
+    await signInWithEmailAndPassword(auth, email, password);
   } catch (error) {
     console.error(error);
     toast.error(error.code.split('/')[1].split('-').join(' '));
   }
-}
+};
 
 // Log out the current user
 const logout = async () => {
-  try {
-    await signOut(auth)
-  } catch (error) {
-    console.error(error);
-    toast.error(error.code.split('/')[1].split('-').join(' '));
-  }
- 
+  signOut(auth)
 }
 
-export {signup,login,auth,logout,db}
+// Reset password
+const resetPass = async (email) => {
+  if (!email) {
+    toast.error('Enter your email address');
+    return;
+  }
+
+  try {
+    const userRef = collection(db, 'users')
+    const q = query(userRef, where('email', email))
+    const querySnap = await getDocs(q);
+    if (!querySnap.empty) {
+      await sendPasswordResetEmail(auth, email)
+      toast.success('We have sent you a password reset email')
+    }
+  } catch (error) {
+    console.error(error)
+    toast.error(error.message)
+  }
+};
+
+export {signup,login,auth,logout,db, resetPass};
