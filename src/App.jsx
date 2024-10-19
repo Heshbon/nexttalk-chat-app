@@ -18,7 +18,7 @@ const App = () => {
       if (user) {
         loadUserData(user.uid); // Load user data from Firestore using UID
         } else {
-          setChatUser(null)
+          setChatUser({})
           setThreadsId(null)
           navigate('/')
         }
