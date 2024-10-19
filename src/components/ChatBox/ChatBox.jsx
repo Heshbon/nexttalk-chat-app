@@ -106,7 +106,7 @@ const ChatBox = () => {
     return chatUser ? (
     <div className={'Chat-bar ${chatVisible ? "" : "hidden"}'}>
       <div className="Chat-user">
-        <img src={chatUser ? chatUser.userData.avatar : assets.photo1} alt='' />
+        <img src={chatUser ? chatUser.userData.avatar : assets.pict4} alt='' />
         <p>{chatUser ? chatUser.userData.name : 'shona'} {Date.now() - chatUser.userData.lastSeen <= 80000 ? <img className='dot' src={assets.bluedot_icon} alt='' /> : null}</p>
         <img onClick={() => setChatVisible(false)} className='arrow' src={assets.arrow_icon} alt="" />
         <img src={assets.help_icon} className="Help" alt="" />
