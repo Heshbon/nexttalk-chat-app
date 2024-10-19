@@ -1,24 +1,24 @@
-.Chat-box{
+.Chat-bar {
   background-color: #e0e7ff;
   height: 75vh;
   position: relative;
 }
-.Chat-user{
+.Chat-user {
   align-items: center;
   border-bottom: 1px solid #a0a0a0;
   padding: 10px 15px;
   gap: 10px;
   display: flex;
 }
-.Chat-user img{
+.Chat-user img {
   border-radius: 50%;
   width: 26px;
 }
-.Chat-user img:first-child{
+.Chat-user img:first-child {
   aspect-ratio: 1/1;
   width: 40px;
 }
-.Chat-user .arrow{
+.Chat-user .arrow {
   display: none;
 }
 .Chat-user p{
@@ -51,13 +51,12 @@
 .Chat-input label img{
   width: 23px;
 }
-.Chat-input input
-{
+.Chat-input input {
   border: none;
   outline: none;
   flex: 1;
 }
-.chat-thread{
+.chat-post{
   display: flex;
   height: calc(100% - 72px);
   padding-bottom: 50px;
@@ -76,11 +75,11 @@
   display: flex;
   gap: 6px;
 }
-.r-thread{
+.r-post{
   justify-content: start;
   flex-direction: row-reverse;
 }
-.thread{
+.post{
   font-weight: 302;
   max-width: 202px;
   background-color: #0ABAB5;
@@ -90,17 +89,17 @@
   margin-bottom: 32px;
   font-size: 13px;
 }
-.r-thread .thread{
+.r-post .post{
   border-radius: 9px 9px 9px 0px;
 }
-.s-thread .thread{
+.s-post .post{
   background-color: antiquewhite;
 }
 .s-post div,.r-post div{
   font-size: 10px;
   text-align: center;
 }
-.thread-img{
+.post-img{
   margin-bottom: 32px;
   border-radius: 9px;
   max-width: 232px;
