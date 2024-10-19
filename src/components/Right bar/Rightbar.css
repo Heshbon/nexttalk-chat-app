@@ -1,78 +1,78 @@
 .rb {
-  height: 76vh; /* Matches the right bar height with good scrolling space */
-  overflow-y: scroll; /* Enables vertical scrolling if content exceeds height */
-  color: antiquewhite; /* Text color for consistency with the theme */
-  position: relative; /* Relative positioning to allow absolute positioning inside */
-  background: #003B5C; /* Sets a dark blue background */
+  height: 76vh;
+  overflow-y: scroll;
+  color: antiquewhite;
+  position: relative;
+  background: #003B5C;
 }
 
 .rb-profile {
-  max-width: 72%; /* Limits the profile section width */
-  margin: auto; /* Centers the profile section */
-  padding-top: 62px; /* Adds space at the top */
-  text-align: center; /* Centers text content */
+  max-width: 72%;
+  margin: auto;
+  padding-top: 62px;
+  text-align: center;
 }
 
 .rb-profile img {
-  width: 112px; /* Sets a fixed width for the profile image */
-  border-radius: 50%; /* Rounds the image into a circle */
-  aspect-ratio: 1/1; /* Maintains a square aspect ratio */
+  width: 112px;
+  border-radius: 50%;
+  aspect-ratio: 1/1;
 }
 
 .rb-profile h3 {
-  justify-content: center; /* Centers content horizontally */
-  display: flex; /* Enables flexbox for alignment */
-  font-size: 19px; /* Sets font size */
-  margin: 6px 0px; /* Adds margin between elements */
-  gap: 6px; /* Space between the name and dot */
-  align-items: center; /* Vertically aligns items */
-  font-weight: 402; /* Slightly bolder font for name */
+  justify-content: center;
+  display: flex;
+  font-size: 19px;
+  margin: 6px 0px;
+  gap: 6px;
+  align-items: center;
+  font-weight: 402;
 }
 
 .rb-profile p {
-  opacity: 78%; /* Makes the text slightly transparent */
-  font-weight: 298; /* Lighter font weight */
-  font-size: 11px; /* Smaller font size for the bio */
+  opacity: 78%;
+  font-weight: 298;
+  font-size: 11px;
 }
 
 .rb hr {
-  margin: 15px 0px; /* Space above and below the horizontal line */
-  border-color: #e0e0e050; /* Light, semi-transparent border color */
+  margin: 15px 0px;
+  border-color: #e0e0e050;
 }
 
 .rb-media {
-  font-size: 14px; /* Font size for the "Media" label */
-  padding: 0px 21px; /* Padding on the sides */
+  font-size: 14px;
+  padding: 0px 21px;
 }
 
 .rb-media div {
-  grid-template-columns: 1fr 1fr 1fr; /* Defines a three-column grid */
-  margin-top: 9px; /* Adds a gap above the media grid */
-  display: grid; /* Uses grid layout for media thumbnails */
-  max-height: 181px; /* Limits the height of the media section */
-  gap: 6px; /* Space between images */
-  overflow-y: scroll; /* Allows vertical scrolling if images overflow */
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-top: 9px;
+  display: grid;
+  max-height: 181px;
+  gap: 6px;
+  overflow-y: scroll;
 }
 
 .rb-media div img {
-  border-radius: 5px; /* Slightly rounds the image corners */
-  cursor: pointer; /* Changes cursor on hover */
-  width: 61px; /* Fixed width for images */
+  border-radius: 5px;
+  cursor: pointer;
+  width: 61px;
 }
 
 .rb button {
-  color: antiquewhite; /* Text color */
-  border-radius: 21px; /* Rounds the button */
-  bottom: 21px; /* Places the button at the bottom */
-  position: absolute; /* Absolute positioning within the relative container */
-  padding: 11px 66px; /* Padding inside the button */
-  cursor: pointer; /* Pointer cursor on hover */
-  background: #FF4D4D; /* Red background for the logout button */
-  border: none; /* Removes default border */
-  font-size: 13px; /* Font size for the button text */
-  left: 50%; /* Horizontally centers the button */
-  font-weight: 301; /* Lighter font weight */
-  transform: translateX(-50%); /* Adjusts centering */
+  color: antiquewhite;
+  border-radius: 21px;
+  bottom: 21px;
+  position: absolute;
+  padding: 11px 66px;
+  cursor: pointer;
+  background: #FF4D4D;
+  border: none;
+  font-size: 13px;
+  left: 50%;
+  font-weight: 301;
+  transform: translateX(-50%);
 }
 
 @media (max-width: 850px) {
