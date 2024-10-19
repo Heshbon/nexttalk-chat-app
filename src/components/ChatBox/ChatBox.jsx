@@ -12,7 +12,7 @@ const ChatBox = () => {
   const [input, setInput] = useState('');
   const scrollEnd = useRef();
 
-  const postImage = async (e) => {
+  const postThread = async () => {
 
     try {
       
@@ -34,7 +34,8 @@ const ChatBox = () => {
           
           if (userChatsSnapshot.exists()) {
             const userChatsData = userChatsSnapshot.data();
-            const chatIndex = userChatsData.chatsData.findIndex((c) => c.threadId === threadsId);userChatsData.chatsData[chatIndex].lastThread = input;
+            const chatIndex = userChatsData.chatsData.findIndex((c) => c.threadId === threadsId);
+            userChatsData.chatsData[chatIndex].lastThread = input;
             userChatsData.chatsData[chatIndex].updateAt = Date.now();
             if (userChatsData.chatsData[chatIndex].rId === userData.id) {
               userChatsData.chatsData[chatIndex].threadSeen = false;
@@ -113,16 +114,16 @@ const ChatBox = () => {
         <div className="chat-post">
           <div ref={scrollEnd}></div>
           { 
-          threads.map((thread, index) => {
+          threads.map((post, index) => {
             return (
-              <div key={index} className={thread.sId === userData.id ? 's-post' : 'r-post'}>
+              <div key={index} className={post.sId === userData.id ? 's-post' : 'r-post'}>
                 {thread['image']
-                ? <img className='thread-img' src={thread['image']} alt="" />
-                : <p className='thread'>{thread['text']}</p>
+                ? <img className='post-img' src={post['image']} alt="" />
+                : <p className='post'>{post['text']}</p>
               }
               <div>
-                <img src={thread.sId === userData.id ? userData.avatar : chatUser.userData.avatar} alt="" />
-                <p>{convertTimestamp(thread.createAt)}</p>
+                <img src={post.sId === userData.id ? userData.avatar : chatUser.userData.avatar} alt="" />
+                <p>{convertTimestamp(post.createAt)}</p>
               </div>
             </div>
           )
@@ -130,12 +131,12 @@ const ChatBox = () => {
       }
     </div>
     <div className='chat-input'>
-      <input onKeyDown={(e) => e.key === "Enter" ? postMessage() : null} onChange={(e) => setInput(e.target.value)} value={input} type="text" placeholder='Post a message' />
+      <input onKeyDown={(e) => e.key === "Enter" ? postThread() : null} onChange={(e) => setInput(e.target.value)} value={input} type="text" placeholder='Post a message' />
       <input onChange={postImage} type="file" id="image" accept="image/jpeg, image/png" hidden />
       <label htmlFor="image">
         <img src={assets.gallery_icon} alt="" />
         </label>
-        <img onClick={postMessage} src={assets.send_icon} alt="" />
+        <img onClick={postThread} src={assets.send_icon} alt="" />
         </div>
       </div>
     ) : <div className={`hello-there ${chatVisible ? "" : "hidden"}`}>
