@@ -117,7 +117,7 @@ const ChatBox = () => {
           threads.map((post, index) => {
             return (
               <div key={index} className={post.sId === userData.id ? 's-post' : 'r-post'}>
-                {thread['image']
+                {post['image']
                 ? <img className='post-img' src={post['image']} alt="" />
                 : <p className='post'>{post['text']}</p>
               }
