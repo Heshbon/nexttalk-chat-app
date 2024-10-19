@@ -11,8 +11,8 @@ const AppStateProvider = (props) => {
   const [userData, setUserData] = useState(null);
   const [chatData, setChatData] = useState([]);
   const [threadsId, setThreadsId] = useState(null);
-  const [threads, setThreads] = useState(null);
-  const [chatUser, setChatUser] = useState(null);
+  const [threads, setThreads] = useState({});
+  const [chatUser, setChatUser] = useState({});
   const [ chatVisible, setChatVisible] = useState(false);
 
   const loadUserData = async (uid) => {
@@ -21,7 +21,8 @@ const AppStateProvider = (props) => {
       const userSnap = await getDoc(userRef);
       const userData = userSnap.data();
       setUserData(userData);
-      if (userData.avatar && userData.name) {
+      if (userData) {
+        setChatUser(userData);
         navigate('/chat');
       }
       else {
