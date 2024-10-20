@@ -21,7 +21,7 @@
 .Chat-user .arrow {
   display: none;
 }
-.Chat-user p{
+.Chat-user p {
   font-size: 22px;
   color: #4A90E2;
   font-weight: 500;
@@ -30,7 +30,7 @@
   align-items: center;
   display: flex;
 }
-.Chat-input{
+.Chat-input {
   position: absolute;
   gap: 11px;
   align-items: center;
@@ -41,45 +41,49 @@
   left: 0;
   bottom: 0;
 }
-.Chat-input img{
+.Chat-input img {
   cursor: pointer;
   width: 32px;
 }
-.Chat-input label{
+.Chat-input label {
   display: flex;
 }
-.Chat-input label img{
+.Chat-input label img {
   width: 23px;
 }
 .Chat-input input {
   border: none;
   outline: none;
   flex: 1;
+  padding: 5px;
 }
-.chat-post{
+.chat-post {
   display: flex;
   height: calc(100% - 72px);
   padding-bottom: 50px;
   flex-direction: column-reverse;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
-.s-post div img,.r-post div img{
+.s-post div img,
+.r-post div img {
   aspect-ratio: 1/1;
   border-radius: 50px;
   width: 28px;
 }
-.s-post,.r-post{
+.s-post,
+.r-post {
   justify-content: end;
   padding: 0px 16px;
   align-items: end;
   display: flex;
   gap: 6px;
 }
-.r-post{
+.r-post {
   justify-content: start;
   flex-direction: row-reverse;
 }
-.post{
+
+.post {
   font-weight: 302;
   max-width: 202px;
   background-color: #0ABAB5;
@@ -89,48 +93,47 @@
   margin-bottom: 32px;
   font-size: 13px;
 }
-.r-post .post{
+.r-post .post {
   border-radius: 9px 9px 9px 0px;
 }
-.s-post .post{
-  background-color: antiquewhite;
+.s-post .post {
+  background-color: antiquewhite; 
 }
-.s-post div,.r-post div{
+.s-post div,
+.r-post div {
   font-size: 10px;
   text-align: center;
 }
-.post-img{
+.post-img {
   margin-bottom: 32px;
   border-radius: 9px;
   max-width: 232px;
 }
-.hello-there{
+.hello-there {
   justify-content: center;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
   display: flex;
   width: 100%;
   align-items: center;
 }
-.hello-there img{
-  width: 58px;
+.hello-there img {
+  width: 60px;
 }
-.hello-there p{
+.hello-there p {
   font-weight: 500;
   color: #4A90E2;
   font-size: 21px;
 }
-
-/* Media queries for responsiveness */
-@media (max-width: 850px) {
-  .Chat-box {
-    justify-content: center;
-    width: 100%;
+@media (max-width:900px) {
+  .chat-box{
+      justify-content: center;
+      width: 100%;
   }
-  .chat-user .arrow {
-    display: block;
+  .chat-user .arrow{
+      display: block;
   }
   .chat-user .help{
-    display: none;
+      display: none;
   }
 }
