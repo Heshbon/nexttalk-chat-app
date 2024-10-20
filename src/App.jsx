@@ -6,12 +6,12 @@ import Update from "./pages/Profile/Profile";
 import { ToastContainer } from "react-toastify"; 
 import "react-toastify/dist/ReactToastify.css"; 
 import { onAuthStateChanged } from "firebase/auth"; 
-import { auth } from "./config/firebase"; 
+import { auth, db } from "./config/firebase"; 
 import { AppState } from "./context/AppState"; 
 
 const App = () => {
   const navigate = useNavigate(); // Hook for navigation
-  const { loadUserData, setChatUser,setThreadsId} = useContext(AppState);
+  const { loadUserData, setChatUser, setThreadsId} = useContext(AppState);
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
@@ -27,7 +27,7 @@ const App = () => {
 
   return (
     <>
-      <ToastContainer /> // Toast notification container
+      <ToastContainer />
       <Routes>
         <Route path="/chat" element={<Chat />} />
         <Route path="/" element={<Login />} /> 
