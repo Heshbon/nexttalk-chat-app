@@ -156,9 +156,6 @@
       justify-content: center;
       width: 100%;
   }
-  .Chat-user .arrow{
-      display: block;
-  }
 
   .Chat-input img:hover {
     opacity: 0.8;
