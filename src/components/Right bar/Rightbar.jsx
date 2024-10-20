@@ -1,43 +1,63 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './Rightbar.css';
 import assets from '../../assets/assets';
 import { logout } from '../../config/firebase';
 import { AppState } from '../../context/AppState';
 
 const Rightbar = () => {
-
   const { chatUser, threads } = useContext(AppState);
-  const [ postImages, setPostImages] = useState([]);
+  const [postImages, setPostImages] = useState([]);
 
-  useEffect (() => {
+  useEffect(() => {
     let tempData = [];
-    threads.map((post) => {
-      if (post.image) {
-        tempData.push(post.image)
-      }
-    })
-    setPostImages(tempData);
-  }, [threads])
+    
+    // Check if threads is an array before mapping
+    if (Array.isArray(threads)) {
+      threads.forEach((post) => {
+        if (post.image) {
+          tempData.push(post.image);
+        }
+      });
+    }
 
-  return chatUser ? (
+    setPostImages(tempData);
+  }, [threads]);
+
+  return chatUser && chatUser.userData ? (
     <div className='rb'>
       <div className='rb-profile'>
-        <img src={chatUser.userData.avatar} alt="" />
-        <h3>{Date.now() - chatUser.userData.lastSeen <= 80000 ?<img className='dot' src={assets.bluedot_icon}alt=''/>:null}{chatUser.userData.name}</h3>
-        <p>{chatUser.userData.info}</p>
+        <img 
+          src={chatUser.userData.avatar || assets.default_avatar} // Fallback for avatar
+          alt="" 
+        />
+        <h3>
+          {Date.now() - chatUser.userData.lastSeen <= 80000 ? 
+            <img className='dot' src={assets.bluedot_icon} alt='' /> : null}
+          {chatUser.userData.name || 'Anonymous'} // Fallback for name
+        </h3>
+        <p>{chatUser.userData.info || 'No information available'}</p> {/* Fallback for info */}
       </div>
-      <hr/>
+      <hr />
       <div className="rb-media">
         <p>Media</p>
         <div>
-          {postImages.map((url,index)=>(<img onClick={()=>window.open(url)} key={index} src={url} alt="" />))}
-          </div>
+          {postImages.map((url, index) => (
+            <img 
+              onClick={() => window.open(url)} 
+              key={index} 
+              src={url} 
+              alt="" 
+            />
+          ))}
         </div>
-      <button onClick={()=>logout()}>Logout</button>
+      </div>
+      <button onClick={() => logout()}>Logout</button>
     </div>
-  ) : <div className='rb'>
-  <button onClick={()=>logout()}>Logout</button>
-</div>
-}
+  ) : (
+    <div className='rb'>
+      <button onClick={() => logout()}>Logout</button>
+    </div>
+  );
+};
 
 export default Rightbar;
