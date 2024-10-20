@@ -80,13 +80,3 @@
     display: none;
   }
 }
-
-@media (max-width: 768px) {
-  .rb-profile {
-    max-width: 90%;
-  }
-
-  .rb button {
-    padding: 10px 50px;
-  }
-}
