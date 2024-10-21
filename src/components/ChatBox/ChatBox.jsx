@@ -19,8 +19,12 @@ const ChatBox = () => {
           threads: arrayUnion({
             sId: userData.id,
             text: input,
-            createAt: serverTimestamp(),
+            createAt: new Date(),
           })
+        });
+
+        await updateDoc(doc(db, 'threads', threadsId), {
+          lastMessageAt: serverTimestamp(),
         });
 
         const userIDs = [chatUser.rId, userData.id];
@@ -32,7 +36,7 @@ const ChatBox = () => {
             const userChatsData = userChatsSnapshot.data();
             const chatIndex = userChatsData.chatsData.findIndex((c) => c.threadId === threadsId);
             userChatsData.chatsData[chatIndex].lastThread = input;
-            userChatsData.chatsData[chatIndex].updateAt = Date.now();
+            userChatsData.chatsData[chatIndex].updateAt = serverTimestamp();
             if (userChatsData.chatsData[chatIndex].rId === userData.id) {
               userChatsData.chatsData[chatIndex].threadSeen = false;
             }
@@ -62,8 +66,12 @@ const ChatBox = () => {
         threads: arrayUnion({
           sId: userData.id,
           Image: fileUrl,
-          createdAt: serverTimestamp(),
+          createdAt: new Date(),
         })
+      });
+
+      await updateDoc(doc(db, 'threads', threadsId), {
+        lastMessageAt: serverTimestamp(),
       });
 
       const userIDs = [chatUser.rId, userData.id];
@@ -75,7 +83,7 @@ const ChatBox = () => {
           const userChatsData = userChatsSnapshot.data();
           const chatIndex = userChatsData.chatsData.findIndex((c) => c.threadId === threadsId);
           userChatsData.chatsData[chatIndex].lastThread = 'image';
-          userChatsData.chatsData[chatIndex].updateAt = Date.now();
+          userChatsData.chatsData[chatIndex].updateAt = serverTimestamp(),
           await updateDoc(userChatsRef, { chatsData: userChatsData.chatsData });
         }
       });
