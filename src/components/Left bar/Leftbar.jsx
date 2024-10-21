@@ -50,7 +50,7 @@ const Leftbar = () => {
       if (user && user.id === userData.id) {
         return 0;
       }
-      const newThreadRef = doc(threadRef);
+      const newThreadRef = doc(threadsRef);
 
       await setDoc(newThreadRef, {
         createAt: serverTimestamp(),
@@ -61,27 +61,24 @@ const Leftbar = () => {
         chatsData: arrayUnion({
           threadId: newThreadRef.id,
           lastThread: '',
-          rId: userData.id,
-          threadSeen: true,
-        }),
-      });
-
-      await updateDoc(doc(chatsRef, userData.id), {
-        chatsData: arrayUnion({
-          threadId: newThreadRef.id,
-          lastThread: '',
           rId: user.id,
-          threadSeen: true,
+          updatedAt: Date.now(),
+          threadSeen: true
         }),
       });
 
+      await updateDoc(doc(chatsRef, user.id), {
+        chatsData: arrayUnion(chatData)
+      });
+      
+      // Fetch user data and set the chat state
       const uSnap = await getDoc(doc(db, 'users', user.id));
       const uData = uSnap.data();
       setChat({
         threadId: newThreadRef.id,
         lastThread: '',
         rId: user.id,
-        updatedAt: serverTimestamp(),
+        updatedAt: new Date(),
         threadSeen: true,
         userData: uData,
       });
@@ -98,12 +95,16 @@ const Leftbar = () => {
     const userChatsRef = doc(db, "chats", userData.id);
     const userChatsSnapshot = await getDoc(userChatsRef);
     const userChatsData = userChatsSnapshot.data();
+
     const chatIndex = userChatsData.chatsData.findIndex((c) => c.threadId === item.threadId);
+    if (chatIndex !== -1) {
     userChatsData.chatsData[chatIndex].threadSeen = true;
     userChatsData.chatsData[chatIndex].updateAt = serverTimestamp();
     await updateDoc(userChatsRef, {
       chatsData: userChatsData.chatsData,
     });
+  }
+  
     setChatVisible(true);
   };
 
