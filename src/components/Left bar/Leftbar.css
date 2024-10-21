@@ -2,12 +2,10 @@
   height: 75vh;
   color: #A3C1DA;
   background: #333333;
-  display: flex;
-  flex-direction: column;
 }
 
 .lb-top {
-  padding: 20px;
+  padding: 21px;
 }
 
 .lb-nav {
@@ -26,14 +24,46 @@
   max-height: 20px;
 }
 
+.lb-nav .menu {
+  padding: 11px 0;
+  position: relative;
+}
+
+.menu .sub-menu{
+  border-radius: 6px;
+  padding: 21px;
+  top: 100%;
+  width: 128px;
+  color: #333333;
+  position: absolute;
+  right: 0;
+  display: none;
+  background-color: azure;
+}
+
+.sub-menu hr {
+  background: #8FA3AD;
+  border: none;
+  margin: 7px 0;
+  height: 2px;
+}
+
+.sub-menu p {
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.menu:hover .sub-menu {
+  display: block;
+}
+
 .lb-search {
   padding: 10px 12px;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 21px;
   background-color: #4CAF50;
-  gap: 10px;
+  gap: 11px;
   display: flex;
-  border-radius: 5px; /* Rounded corners for better UI */
 }
 
 .lb-search img {
@@ -46,7 +76,6 @@
   background: transparent;
   color: whitesmoke;
   border: none;
-  flex: 1; /* Ensure input takes up available space */
 }
 
 .lb-search input::placeholder {
@@ -58,15 +87,6 @@
   display: flex;
   overflow-y: auto;
   flex-direction: column;
-  gap: 10px;
-  padding: 10px 0;
-  scrollbar-width: thin;
-}
-
-.contacts img {
-  aspect-ratio: 1/1;
-  border-radius: 50%;
-  width: 36px;
 }
 
 .contacts {
@@ -76,7 +96,12 @@
   display: flex;
   font-size: 14px;
   align-items: center;
-  transition: background-color 0.3s ease;
+}
+
+.contacts img {
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  width: 36px;
 }
 
 .contacts div {
@@ -97,57 +122,27 @@
   color: whitesmoke;
 }
 
-.lb-nav .menu {
-  padding: 11px 0;
-  position: relative;
+.add-user div {
+  align-items: center;
+  flex-direction: row;
+  flex: 2;
+  justify-content: space-between;
 }
 
-.menu .sub-menu {
-  padding: 21px;
-  right: 0;
-  background-color: antiquewhite;
-  width: 131px;
-  position: absolute;
-  color: black;
-  border-radius: 5px;
-  display: none;
-  top: 100%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.add-user .add-icon {
+  width: 24px;
 }
 
-.sub-menu hr {
-  background: #B0B0B0;
-  border: none;
-  margin: 9px 0;
-  height: 1px;
+.contacts.border img {
+  border: 4px solid #40E0D0;
 }
 
-.sub-menu p {
-  font-size: 13px;
-  cursor: pointer;
-  margin: 0;
-  padding: 5px 0; /* Improved padding */
+.contacts.border div span {
+  color: #40E0D0;
 }
 
-.menu:hover .sub-menu {
-  display: block;
-}
-
-.error {
-  color: #FF4C4C; /* Color for error messages */
-  font-size: 12px;
-  padding: 5px 10px;
-  background-color: #FFDDDD;
-  border-radius: 5px;
-  margin: 10px;
-}
-
-@media (max-width: 768px) {
+@media (max-width: 868px) {
   .lb {
-    height: auto;
-  }
-
-  .lb-list {
-    height: auto;
+    width: 100%;
   }
 }

@@ -149,7 +149,7 @@ const Leftbar = () => {
         ) : (
           chatData && chatData.length > 0 ? (
             chatData.map((item, index) => (
-              <div onClick={() => setChat(item)} key={index} className="contacts">
+              <div onClick={() => setChat(item)} key={index} className={`contacts ${item.threadSeen || item.threadId === threadsId ? "" : "border"}`}>
                 <img src={item.userData.avatar} alt="User Avatar" />
                 <div>
                   <p>{item.userData.name}</p>
