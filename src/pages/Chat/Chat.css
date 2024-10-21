@@ -12,19 +12,23 @@
   grid-template-columns: 1fr 2fr 1fr;
   width: 96%;
   height: 75vh;
+  border-radius: 10px;
 }
 
 .fetching {
   color: antiquewhite;
   font-size: 48px;
+  text-align: center;
 }
 @media (max-width:850px) {
   .chat-container{
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto;
+    height: 100vh;
   }
   .fetching{
     font-size: 28px;
+    text-align: center;
   }
 }
