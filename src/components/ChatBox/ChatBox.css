@@ -38,27 +38,30 @@
 
 .Chat-input {
   position: absolute;
-  gap: 11px;
-  align-items: center;
+  bottom: 0;
+  left: 0;
+  right: 0;
   padding: 10px 15px;
   display: flex;
-  background: white;
-  right: 0;
-  left: 0;
-  bottom: 0;
-}
-
-.Chat-input img {
-  cursor: pointer;
-  width: 32px;
+  align-items: center;
+  background-color: white;
+  gap: 10px;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .Chat-input label {
   display: flex;
 }
 
-.Chat-input label img {
-  width: 23px;
+.Chat-input label img,
+.Chat-input img {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.Chat-input img.send {
+  margin-left: 10px;
 }
 
 .Chat-input input {

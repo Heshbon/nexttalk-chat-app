@@ -146,7 +146,7 @@ const ChatBox = () => {
         <label htmlFor="image">
           <img src={assets.gallery_icon} alt="" />
         </label>
-        <img onClick={postThread} src={assets.send_icon} alt="" />
+        <img onClick={postThread} src={assets.send_icon} alt="" className="send" />
       </div>
     </div>
   ) : (
