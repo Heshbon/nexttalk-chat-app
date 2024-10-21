@@ -33,9 +33,8 @@ const Rightbar = () => {
         <h3>
           {Date.now() - chatUser.userData.lastSeen <= 80000 ? 
             <img className='dot' src={assets.bluedot_icon} alt='' /> : null}
-          {chatUser.userData.name || 'Anonymous'} // Fallback for name
-        </h3>
-        <p>{chatUser.userData.info || 'No information available'}</p> {/* Fallback for info */}
+          {chatUser.userData.name}</h3>
+        <p>{chatUser.userData.info}</p>
       </div>
       <hr />
       <div className="rb-media">
