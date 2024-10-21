@@ -20,7 +20,9 @@
 }
 @media (max-width:850px) {
   .chat-container{
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
   }
   .fetching{
     font-size: 28px;
