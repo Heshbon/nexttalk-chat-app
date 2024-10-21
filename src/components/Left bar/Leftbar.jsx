@@ -3,7 +3,7 @@ import './Leftbar.css';
 import assets from '../../assets/assets';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { arrayUnion, collection, doc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore';
+import { arrayUnion, collection, doc, getDocs, query, serverTimestamp, getDoc, setDoc, updateDoc, where } from 'firebase/firestore';
 import { db, logout } from '../../config/firebase';
 import { AppState } from '../../context/AppState';
 
