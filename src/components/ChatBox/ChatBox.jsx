@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState, useRef } from 'react';
 import './ChatBox.css';
 import assets from '../../assets/assets';
 import { AppState } from '../../context/AppState';
-import { arrayUnion, doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore';
+import { arrayUnion, doc, getDoc, onSnapshot, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import upload from '../../lib/fileupload';
 import { toast } from 'react-toastify';
@@ -19,7 +19,7 @@ const ChatBox = () => {
           threads: arrayUnion({
             sId: userData.id,
             text: input,
-            createAt: new Date(),
+            createAt: serverTimestamp(),
           })
         });
 
@@ -62,7 +62,7 @@ const ChatBox = () => {
         threads: arrayUnion({
           sId: userData.id,
           Image: fileUrl,
-          createdAt: new Date()
+          createdAt: serverTimestamp(),
         })
       });
 
