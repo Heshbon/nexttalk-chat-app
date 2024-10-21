@@ -62,7 +62,6 @@ const Leftbar = () => {
           threadId: newThreadRef.id,
           lastThread: '',
           rId: userData.id,
-          updateAt: serverTimestamp(),
           threadSeen: true,
         }),
       });
@@ -72,7 +71,6 @@ const Leftbar = () => {
           threadId: newThreadRef.id,
           lastThread: '',
           rId: user.id,
-          updateAt: serverTimestamp(),
           threadSeen: true,
         }),
       });
@@ -83,7 +81,7 @@ const Leftbar = () => {
         threadId: newThreadRef.id,
         lastThread: '',
         rId: user.id,
-        updatedAt: Date.now(),
+        updatedAt: serverTimestamp(),
         threadSeen: true,
         userData: uData,
       });
@@ -102,6 +100,7 @@ const Leftbar = () => {
     const userChatsData = userChatsSnapshot.data();
     const chatIndex = userChatsData.chatsData.findIndex((c) => c.threadId === item.threadId);
     userChatsData.chatsData[chatIndex].threadSeen = true;
+    userChatsData.chatsData[chatIndex].updateAt = serverTimestamp();
     await updateDoc(userChatsRef, {
       chatsData: userChatsData.chatsData,
     });
