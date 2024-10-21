@@ -37,6 +37,7 @@ For understanding of NextTalk Chat App, along with an overview of its tech stack
 
 + [Introducing NextTalk Chat App - A Chat Application with Real-Time Support](https://medium.com/@cityalight.hesbon/introducing-nexttalk-chat-app-a-chat-application-with-real-time-support-d7446e71587a)
 
+
 ## Tech Stack 🐩
 
 ![Techstack Image](./src/assets/tech_stack.png)
