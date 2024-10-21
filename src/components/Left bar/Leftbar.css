@@ -60,11 +60,11 @@
   flex-direction: column;
   gap: 10px;
   padding: 10px 0;
-  scrollbar-width: thin; /* Custom scroll bar for better aesthetics */
+  scrollbar-width: thin;
 }
 
 .contacts img {
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1/1;
   border-radius: 50%;
   width: 36px;
 }
@@ -76,7 +76,7 @@
   display: flex;
   font-size: 14px;
   align-items: center;
-  transition: background-color 0.3s ease; /* Smooth hover transition */
+  transition: background-color 0.3s ease;
 }
 
 .contacts div {
@@ -109,7 +109,7 @@
   width: 131px;
   position: absolute;
   color: black;
-  border-radius: 6px;
+  border-radius: 5px;
   display: none;
   top: 100%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
