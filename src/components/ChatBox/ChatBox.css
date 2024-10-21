@@ -49,29 +49,31 @@
   box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.chat-input img {
+  width: 28px;
+  cursor: pointer;
+}
+
 .chat-input label {
   display: flex;
 }
 
-.Chat-input label img,
-.chat-input img {
-  width: 28px;
-  height: 24px;
-  cursor: pointer;
+.chat-input label img {
+  width: 21px;
 }
 
-.Chat-input img.send {
+.chat-input img.send {
   margin-left: 10px;
 }
 
-.Chat-input input {
+.chat-input input {
   border: none;
   outline: none;
   flex: 1;
   padding: 5px;
 }
 
-.Chat-input input:focus {
+.chat-input input:focus {
   outline: 2px solid #4A90E2;
 }
 
@@ -111,8 +113,8 @@
   border-radius: 9px 9px 0px 9px;
   padding: 9px;
   color: antiquewhite;
-  margin-bottom: 32px;
-  font-size: 13px;
+  margin-bottom: 28px;
+  font-size: 12px;
 }
 
 .r-post .post {
@@ -160,7 +162,7 @@
       width: 100%;
   }
 
-  .Chat-input img:hover {
+  .chat-input img:hover {
     opacity: 0.8;
   }
 
