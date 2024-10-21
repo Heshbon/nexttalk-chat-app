@@ -74,7 +74,7 @@ const resetPass = async (email) => {
 
   try {
     const userRef = collection(db, 'users')
-    const q = query(userRef, where('email', email))
+    const q = query(userRef, where('email', '==', email))
     const querySnap = await getDocs(q);
     if (!querySnap.empty) {
       await sendPasswordResetEmail(auth, email)
