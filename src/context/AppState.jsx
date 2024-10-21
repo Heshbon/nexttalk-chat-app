@@ -21,8 +21,7 @@ const AppStateProvider = (props) => {
       const userSnap = await getDoc(userRef);
       const userData = userSnap.data();
       setUserData(userData);
-      if (userData) {
-        setChatUser(userData);
+      if (userData.avatar && userData.name) {
         navigate('/chat');
       }
       else {
@@ -64,21 +63,21 @@ const AppStateProvider = (props) => {
     }
   }, [userData]);
   
-  // // useEffect(() => {
-  // //   if (userData) {
-  // //     const chatRef = doc(db, "chats", userData.id);
-  // //     const unSub = onSnapshot(chatRef, async (res) => {
-  // //       const chatLogs = res.data().chatsData;
-  // //       const tempValue = [];
-  // //       for (const item of chatLogs) {
-  // //         const userRef = doc(db, "users", item.rId);
-  // //         const userSnap = await getDoc(userRef);
-  // //         const userData = userSnap.data();
-  // //         tempValue.push({ ...item, userData });
-  // //       }
-  // //       setChatData(tempValue.sort((a, b) => b.updatedAt - a.updatedAt));
-  // //     }, 12000);
-  // //   }
+  //  useEffect(() => {
+  //   if (userData) {
+  //     const chatRef = doc(db, "chats", userData.id);
+  //     const unSub = onSnapshot(chatRef, async (res) => {
+  //       const chatLogs = res.data().chatsData;
+  //       const tempValue = [];
+  //       for (const item of chatLogs) {
+  //         const userRef = doc(db, "users", item.rId);
+  //         const userSnap = await getDoc(userRef);
+  //         const userData = userSnap.data();
+  //         tempValue.push({ ...item, userData });
+  //       }
+  //       setChatData(tempValue.sort((a, b) => b.updatedAt - a.updatedAt));
+  //     }, 12000);
+  //   }
   // }, [userData]);
   
   const value = {
