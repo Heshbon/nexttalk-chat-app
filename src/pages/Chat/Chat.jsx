@@ -24,9 +24,9 @@ const Chat = () => {
       {fetching
           ? <p className='fetching'>fetching...</p> // Show loading message
           : <div className="chat-container">
-              <Leftbar /> // Render Leftbar component
-              <ChatBox /> // Render ChatBox component
-              <Rightbar /> // Render Rightbar component
+              <Leftbar />
+              <ChatBox />
+              <Rightbar />
             </div>
       }
     </div>
